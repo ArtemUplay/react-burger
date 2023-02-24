@@ -7,7 +7,9 @@ function App() {
     <div className={styles.app}>
       <AppHeader />
       <main className={styles.main}>
-        <BurgerIngredients />
+        <div className={styles['constructor-page']}>
+          <BurgerIngredients />
+        </div>
       </main>
     </div>
   );

@@ -10,3 +10,9 @@
   padding: 0px 15px;
   margin: 0 auto;
 }
+
+.constructor-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0px 40px;
+}
