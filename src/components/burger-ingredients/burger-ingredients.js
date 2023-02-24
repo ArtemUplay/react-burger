@@ -9,9 +9,9 @@ const BurgerIngredients = () => {
 
   return (
     <section>
-      <div className={styles.container}>
-        <h1>Соберите бургер</h1>
-        <div className={styles.tabs}>
+      <div className={`pt-10 pb-10 ${styles.container}`}>
+        <h1 className={`mb-5 ${styles['main-title']}`}>Соберите бургер</h1>
+        <div className={`mb-10 ${styles.tabs}`}>
           <Tab value='Булки' active={current === 'Булки'} onClick={setCurrent}>
             Булки
           </Tab>
@@ -22,20 +22,38 @@ const BurgerIngredients = () => {
             Начинки
           </Tab>
         </div>
-        <div>
-          <h2>Булки</h2>
-          <ul>
-            {data.map(product => {
-              if (product.type === 'bun') {
-                return (
-                  <ProductCard _id={product._id} name={product.name} price={product.price} image={product.image} />
-                );
-              }
-            })}
-          </ul>
-        </div>
+        <h2 className={`mb-6 ${styles.title}`}>Булки</h2>
+        <ul className={`pb-10 ${styles.list}`}>
+          {data.map(product => {
+            if (product.type === 'bun') {
+              return (
+                <ProductCard _id={product._id} name={product.name} price={product.price} image={product.image} />
+              );
+            }
+          })}
+        </ul>
+        <h2 className={`mb-6 ${styles.title}`}>Соусы</h2>
+        <ul className={styles.list}>
+          {data.map(product => {
+            if (product.type === 'sauce') {
+              return (
+                <ProductCard _id={product._id} name={product.name} price={product.price} image={product.image} />
+              );
+            }
+          })}
+        </ul>
+        <h2 className={`mb-6 ${styles.title}`}>Начинки</h2>
+        <ul className={styles.list}>
+          {data.map(product => {
+            if (product.type === 'main') {
+              return (
+                <ProductCard _id={product._id} name={product.name} price={product.price} image={product.image} />
+              );
+            }
+          })}
+        </ul>
       </div >
-    </section>
+    </section >
   );
 }
 

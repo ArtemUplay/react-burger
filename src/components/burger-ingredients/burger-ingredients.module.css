@@ -1,9 +1,34 @@
 .container {
   width: 100%;
-  max-width: 1240px;
-  margin: 0 auto;
+  max-width: 600px;
 }
 
 .tabs {
   display: flex;
+}
+
+.main-title {
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+  color: #F2F2F3;
+  font-family: 'JetBrainsMono', Arial, "Helvetica Neue", Helvetica, sans-serif;
+  margin-top: 0;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+  font-family: 'JetBrainsMono', Arial, "Helvetica Neue", Helvetica, sans-serif;
+  color: #F2F2F3;
+  margin-top: 0;
+}
+
+.list {
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0;
 }
