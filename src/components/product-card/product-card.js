@@ -1,9 +1,9 @@
 import styles from './product-card.module.css';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const ProductCard = ({ _id, name, price, image }) => {
+const ProductCard = ({ name, price, image }) => {
   return (
-    <li className={`pb-8 ${styles.card}`} key={_id}>
+    <li className={`pb-8 ${styles.card}`}>
       <a className={styles.link} href='#'>
         <img className={`mb-1 ml-4 mr-4 ${styles.image}`} src={image} alt={name} />
         <div className={`mb-1 ${styles['price-wrapper']}`}>
