@@ -1,4 +1,5 @@
 import styles from './product-card.module.css';
+import PropTypes from 'prop-types';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const ProductCard = ({ name, price, image }) => {
@@ -14,6 +15,12 @@ const ProductCard = ({ name, price, image }) => {
       </a>
     </li>
   );
+}
+
+ProductCard.propTypes = {
+  name: PropTypes.string,
+  price: PropTypes.number,
+  image: PropTypes.string
 }
 
 export default ProductCard;

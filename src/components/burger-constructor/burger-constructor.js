@@ -1,5 +1,5 @@
 import ConstructorItems from "../constructor-item/constructor-item";
-import data from '../../data.json';
+import data from '../utils/data.json';
 import styles from './burger-constructor.module.css';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { LockIcon } from "@ya.praktikum/react-developer-burger-ui-components";

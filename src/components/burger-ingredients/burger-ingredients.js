@@ -1,7 +1,6 @@
 import React from 'react';
-import { useRef } from 'react';
 import styles from './burger-ingredients.module.css';
-import data from '../../data.json';
+import data from '../utils/data.json';
 import ProductCard from '../product-card/product-card';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 

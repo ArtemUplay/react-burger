@@ -21,7 +21,9 @@ const AppHeader = () => {
                 <span className="ml-2">Лента заказов</span></a>
             </li>
           </ul>
-          <Logo />
+          <a className={styles['logo-link']} href="#">
+            <Logo />
+          </a>
           <a href="#" className={`pl-5 pr-4 pb-4 pt-5 ${styles.link} ${styles['personal-account']}`}>
             <ProfileIcon type="primary" />
             <span className="ml-2">Личный кабинет</span></a>

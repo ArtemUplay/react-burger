@@ -1,4 +1,5 @@
 import styles from './constructor-item.module.css';
+import PropTypes from 'prop-types';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DeleteIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -18,6 +19,12 @@ const ConstructorItem = ({ image, name, price }) => {
       </a>
     </li>
   );
+}
+
+ConstructorItem.propTypes = {
+  image: PropTypes.string,
+  name: PropTypes.string,
+  price: PropTypes.number
 }
 
 export default ConstructorItem;
