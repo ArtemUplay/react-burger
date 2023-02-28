@@ -1,13 +1,54 @@
+@font-face {
+  font-family: 'JetBrainsMono';
+  src: url('./fonts/JetBrainsMono-Regular.ttf') format('truetype'),
+    url('./fonts/JetBrainsMono-Regular.woff') format('woff');
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  src: url('./fonts/JetBrainsMono-Bold.ttf') format('truetype'),
+    url('./fonts/JetBrainsMono-Bold.woff') format(' woff');
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Iceland';
+  src: url('./fonts/Iceland-Regular.ttf') format('truetype'),
+    url('./fonts/Iceland-Regular.woff') format(' woff');
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'IBMPlexSans';
+  src: url('./fonts/IBMPlexSans-Regular.ttf') format('truetype'),
+    url('./fonts/IBMPlexSans-Regular.woff') format(' woff');
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'IBMPlexSans';
+  src: url('./fonts/IBMPlexSans-Bold.ttf') format('truetype'),
+    url('./fonts/IBMPlexSans-Bold.woff') format(' woff');
+  font-style: normal;
+  font-weight: 700;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
