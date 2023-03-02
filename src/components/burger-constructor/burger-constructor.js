@@ -5,6 +5,8 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import { LockIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
+// TODO: переделать высоту контейнера со скроллом
+
 const BurgerConstructor = () => {
   const bun = data.find(item => item.type === 'bun');
   let totalPrice = 0;
