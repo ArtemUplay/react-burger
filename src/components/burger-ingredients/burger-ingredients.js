@@ -5,7 +5,6 @@ import ProductCard from '../product-card/product-card';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 // TODO: переделать высоту контейнера со скроллом
-// TODO: узнать почему возникает ошибка если передавать из state в props
 
 const BurgerIngredients = ({ dataArray }) => {
   const [current, setCurrent] = React.useState('Булки');
@@ -33,36 +32,33 @@ const BurgerIngredients = ({ dataArray }) => {
       <div className={styles.cards}>
         <h2 id='buns' className={`mb-6 ${styles.title}`}>Булки</h2>
         <ul className={`pb-10 ${styles.list}`}>
-          {dataArray ? (
-            dataArray.map(product => {
-              if (product.type === 'bun') {
-                return (
-                  <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} />
-                );
-              }
-            })) : null}
+          {dataArray.map(product => {
+            if (product.type === 'bun') {
+              return (
+                <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} />
+              );
+            }
+          })}
         </ul>
         <h2 id='sauces' className={`mb-6 ${styles.title}`}>Соусы</h2>
         <ul className={styles.list}>
-          {dataArray ? (
-            dataArray.map(product => {
-              if (product.type === "sauce") {
-                return (
-                  <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} />
-                );
-              }
-            })) : null}
+          {dataArray.map(product => {
+            if (product.type === "sauce") {
+              return (
+                <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} />
+              );
+            }
+          })}
         </ul>
         <h2 id='main' className={`mb-6 ${styles.title}`}>Начинки</h2>
         <ul className={styles.list}>
-          {dataArray ? (
-            dataArray.map(product => {
-              if (product.type === 'main') {
-                return (
-                  <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} />
-                );
-              }
-            })) : null}
+          {dataArray.map(product => {
+            if (product.type === 'main') {
+              return (
+                <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} />
+              );
+            }
+          })}
         </ul>
       </div>
     </section >

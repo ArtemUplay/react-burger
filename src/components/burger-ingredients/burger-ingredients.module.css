@@ -1,7 +1,4 @@
-.menu {
-  height: 100%;
-  max-height: 78vh;
-}
+.menu {}
 
 .tabs {
   display: flex;
@@ -24,8 +21,7 @@
 
 .cards {
   box-sizing: border-box;
-  height: 100%;
-  max-height: 80vh;
+  height: calc(100vh - 300px);
   overflow-y: auto;
 }
 

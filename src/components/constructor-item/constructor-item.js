@@ -2,8 +2,10 @@ import styles from './constructor-item.module.css';
 import PropTypes from 'prop-types';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DeleteIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { LockIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const ConstructorItem = ({ image, name, price }) => {
+
   return (
     <li className={`pt-4 pb-4 pl-6 pr-8 ${styles.item}`}>
       <a className={`${styles.link}`} href='#'>

@@ -7,7 +7,9 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 function App() {
   const URL = 'https://norma.nomoreparties.space/api/ingredients';
 
-  const [dataArray, setData] = React.useState();
+  const [dataArray, setData] = React.useState([]);
+  const [totalPrice, countTotalPrice] = React.useState(0);
+
 
   React.useEffect(() => {
     const getData = () => {
@@ -30,13 +32,25 @@ function App() {
       })
   }, [])
 
+  React.useEffect(() => {
+    let sumOfPrices = 0;
+
+    dataArray.forEach(item => {
+      if (item.type !== 'bun') {
+        sumOfPrices = sumOfPrices + item.price;
+      }
+    })
+
+    countTotalPrice(sumOfPrices);
+  }, [dataArray])
+
   return (
     <div className={styles.app}>
       <AppHeader />
       <main className={styles.main}>
         <div className={styles['constructor-page']}>
           <BurgerIngredients dataArray={dataArray} />
-          <BurgerConstructor />
+          <BurgerConstructor dataArray={dataArray} price={totalPrice} />
         </div>
       </main>
     </div>
