@@ -3,11 +3,16 @@ import styles from './burger-ingredients.module.css';
 import data from '../utils/data.json';
 import ProductCard from '../product-card/product-card';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import ModalOverlay from '../modal-overlay/modal-overlay';
+import Modal from '../modal/modal';
+import IngredientsDetails from '../ingredient-details/ingredient-details';
 
-// TODO: переделать высоту контейнера со скроллом
-
-const BurgerIngredients = ({ dataArray }) => {
+const BurgerIngredients = ({ dataArray, setOpenModal, getId }) => {
   const [current, setCurrent] = React.useState('Булки');
+
+  const click = (evt) => {
+    console.log(evt.currentTarget);
+  }
 
   return (
     <section className={`pt-10 pb-10 ${styles.menu}`}>
@@ -35,7 +40,7 @@ const BurgerIngredients = ({ dataArray }) => {
           {dataArray.map(product => {
             if (product.type === 'bun') {
               return (
-                <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} />
+                <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} id={product._id} setOpenModal={setOpenModal} getId={getId} />
               );
             }
           })}
@@ -45,7 +50,7 @@ const BurgerIngredients = ({ dataArray }) => {
           {dataArray.map(product => {
             if (product.type === "sauce") {
               return (
-                <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} />
+                <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} id={product._id} setOpenModal={setOpenModal} />
               );
             }
           })}
@@ -55,7 +60,7 @@ const BurgerIngredients = ({ dataArray }) => {
           {dataArray.map(product => {
             if (product.type === 'main') {
               return (
-                <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} />
+                <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} id={product._id} setOpenModal={setOpenModal} />
               );
             }
           })}

@@ -8,19 +8,20 @@ import React from "react";
 // TODO: переделать высоту контейнера со скроллом
 // TODO: Узнать почему key одинаковый у каких-то элементов
 
-const BurgerConstructor = ({ dataArray, price }) => {
-
-  const [totalPrice, countTotalPrice] = React.useState(price);
-  const bun = dataArray.find(item => item.type === 'bun');
+const BurgerConstructor = ({ dataArray, price, countTotalPrice }) => {
 
   React.useEffect(() => {
-    let sumOfBunsPrices = 0;
 
-    if (bun) {
-      sumOfBunsPrices = price + bun.price * 2;
-      countTotalPrice(sumOfBunsPrices);
-    }
-  }, [price])
+  }, [])
+
+  // const [totalPrice, countTotalPrice] = React.useState(price);
+  const bun = dataArray.find(item => item.type === 'bun');
+
+  // React.useEffect(() => {
+  //   if (bun) {
+  //     countTotalPrice(price + bun.price * 2);
+  //   }
+  // }, [price])
 
   return (
     <section className={`pt-25 ${styles.section}`}>
@@ -78,7 +79,7 @@ const BurgerConstructor = ({ dataArray, price }) => {
       </ul>
       <div className={`mt-10 ${styles['submit-order-wrapper']}`}>
         <div className={`${styles['wrapper-total-price']}`}>
-          <span className={styles['total-price']}>{totalPrice}</span>
+          <span className={styles['total-price']}>{price}</span>
           <CurrencyIcon />
         </div>
         <button className={`pt-5 pb-5 pr-10 pl-10 ${styles['submit-order']}`}>Оформить заказ</button>
