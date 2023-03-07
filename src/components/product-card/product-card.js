@@ -3,10 +3,10 @@ import styles from './product-card.module.css';
 import PropTypes from 'prop-types';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const ProductCard = ({ name, price, image, id, setOpenModal, getId }) => {
+const ProductCard = ({ name, price, image, id, setModalActive, getId }) => {
   return (
     <>
-      <li id={id} className={`pb-8 ${styles.card}`} onClick={(evt) => { setOpenModal(true); getId(evt.currentTarget.id) }}>
+      <li id={id} className={`pb-8 ${styles.card}`} onClick={(evt) => { setModalActive(true); getId(evt.currentTarget.id) }}>
         <a className={styles.link} href='#'>
           <img className={`mb-1 ml-4 mr-4 ${styles.image}`} src={image} alt={name} />
           <div className={`mb-1 ${styles['price-wrapper']}`}>

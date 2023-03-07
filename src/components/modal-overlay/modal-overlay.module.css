@@ -9,12 +9,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  visibility: hidden;
-  overflow: 0;
-  transition: all .3s ease;
+  transition: 10s;
+  transform: scale(0);
 }
 
 .overlay_show {
-  visibility: visible;
-  overflow: .6;
+  transform: scale(1);
 }

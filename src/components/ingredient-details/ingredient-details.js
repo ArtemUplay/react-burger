@@ -1,7 +1,7 @@
 import styles from './ingredient-details.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-const IngredientsDetails = ({ setOpenModal, itemId, dataArray }) => {
+const IngredientsDetails = ({ setModalActive, itemId, dataArray }) => {
   const data = dataArray.find(item => {
     return item._id === itemId;
   })
@@ -16,7 +16,7 @@ const IngredientsDetails = ({ setOpenModal, itemId, dataArray }) => {
     <>
       <div className={`pt-10 pl-10 pr-10 ${styles.top}`}>
         <h2 className={` ${styles.title}`}>Детали ингредиента</h2>
-        <button className={`${styles.button}`} onClick={() => { return setOpenModal(false) }}>
+        <button className={`${styles.button}`} onClick={() => { return setModalActive(false) }}>
           <CloseIcon type="primary" />
         </button>
       </div >

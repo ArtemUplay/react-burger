@@ -12,7 +12,7 @@ function App() {
 
   const [dataArray, setData] = React.useState([]);
   const [totalPrice, countTotalPrice] = React.useState(0);
-  const [isOpenModal, setOpenModal] = React.useState(false);
+  const [modalActive, setModalActive] = React.useState(false);
   const [itemId, getId] = React.useState(null);
 
   React.useEffect(() => {
@@ -35,22 +35,15 @@ function App() {
       })
   }, [])
 
-  console.log(dataArray);
-
   return (
     <div className={styles.app}>
       <AppHeader />
       <main className={styles.main}>
         <div className={styles['constructor-page']}>
-          <BurgerIngredients dataArray={dataArray} setOpenModal={setOpenModal} getId={getId} />
+          <BurgerIngredients dataArray={dataArray} modalActive={modalActive} setModalActive={setModalActive} getId={getId} itemId={itemId} />
           <BurgerConstructor dataArray={dataArray} price={totalPrice} countTotalPrice={countTotalPrice} />
         </div>
       </main>
-      <ModalOverlay isOpenModal={isOpenModal}>
-        <Modal>
-          <IngredientsDetails setOpenModal={setOpenModal} itemId={itemId} dataArray={dataArray} />
-        </Modal>
-      </ModalOverlay>
     </div>
   );
 }
