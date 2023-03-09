@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './burger-ingredients.module.css';
-import data from '../utils/data.json';
 import ProductCard from '../product-card/product-card';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import Modal from '../modal/modal';
 import IngredientsDetails from '../ingredient-details/ingredient-details';
+import PropTypes from 'prop-types';
 
-const BurgerIngredients = ({ dataArray, modalActive, setModalActive, getId, itemId }) => {
+const BurgerIngredients = ({ dataArray, modalIngredientsDetailsActive, setModalIngredientsDetailsActive, getId, itemId }) => {
   const [current, setCurrent] = React.useState('Булки');
 
   return (
@@ -37,7 +37,7 @@ const BurgerIngredients = ({ dataArray, modalActive, setModalActive, getId, item
             {dataArray.map(product => {
               if (product.type === 'bun') {
                 return (
-                  <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} id={product._id} setModalActive={setModalActive} getId={getId} />
+                  <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} id={product._id} setModalActive={setModalIngredientsDetailsActive} getId={getId} />
                 );
               }
             })}
@@ -47,7 +47,7 @@ const BurgerIngredients = ({ dataArray, modalActive, setModalActive, getId, item
             {dataArray.map(product => {
               if (product.type === "sauce") {
                 return (
-                  <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} id={product._id} setModalActive={setModalActive} getId={getId} />
+                  <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} id={product._id} setModalActive={setModalIngredientsDetailsActive} getId={getId} />
                 );
               }
             })}
@@ -57,21 +57,29 @@ const BurgerIngredients = ({ dataArray, modalActive, setModalActive, getId, item
             {dataArray.map(product => {
               if (product.type === 'main') {
                 return (
-                  <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} id={product._id} setModalActive={setModalActive} getId={getId} />
+                  <ProductCard key={product._id} name={product.name} price={product.price} image={product.image} id={product._id} setModalActive={setModalIngredientsDetailsActive} getId={getId} />
                 );
               }
             })}
           </ul>
         </div>
       </section >
-      <ModalOverlay modalActive={modalActive} setModalActive={setModalActive}>
-        <Modal modalActive={modalActive}>
-          <IngredientsDetails setModalActive={setModalActive} itemId={itemId} dataArray={dataArray} />
+      <ModalOverlay modalActive={modalIngredientsDetailsActive} setModalActive={setModalIngredientsDetailsActive}>
+        <Modal modalActive={modalIngredientsDetailsActive}>
+          <IngredientsDetails setModalActive={setModalIngredientsDetailsActive} itemId={itemId} dataArray={dataArray} />
         </Modal>
       </ModalOverlay>
     </>
 
   );
+}
+
+BurgerIngredients.propTypes = {
+  dataArray: PropTypes.array,
+  modalIngredientsDetailsActive: PropTypes.bool,
+  setModalIngredientsDetailsActive: PropTypes.func,
+  getId: PropTypes.func,
+  itemId: PropTypes.string
 }
 
 export default BurgerIngredients;

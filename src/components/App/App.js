@@ -3,16 +3,13 @@ import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import ModalOverlay from '../modal-overlay/modal-overlay';
-import Modal from '../modal/modal';
-import IngredientsDetails from '../ingredient-details/ingredient-details';
 
 function App() {
   const URL = 'https://norma.nomoreparties.space/api/ingredients';
 
   const [dataArray, setData] = React.useState([]);
-  const [totalPrice, countTotalPrice] = React.useState(0);
-  const [modalActive, setModalActive] = React.useState(false);
+  const [modalIngredientsDetailsActive, setModalIngredientsDetailsActive] = React.useState(false);
+  const [modalOrderDetailsActive, setModalOrderDetailsActive] = React.useState(false);
   const [itemId, getId] = React.useState(null);
 
   React.useEffect(() => {
@@ -40,8 +37,8 @@ function App() {
       <AppHeader />
       <main className={styles.main}>
         <div className={styles['constructor-page']}>
-          <BurgerIngredients dataArray={dataArray} modalActive={modalActive} setModalActive={setModalActive} getId={getId} itemId={itemId} />
-          <BurgerConstructor dataArray={dataArray} price={totalPrice} countTotalPrice={countTotalPrice} />
+          <BurgerIngredients dataArray={dataArray} modalIngredientsDetailsActive={modalIngredientsDetailsActive} setModalIngredientsDetailsActive={setModalIngredientsDetailsActive} getId={getId} itemId={itemId} />
+          <BurgerConstructor dataArray={dataArray} modalOrderDetailsActive={modalOrderDetailsActive} setModalOrderDetailsActive={setModalOrderDetailsActive} />
         </div>
       </main>
     </div>

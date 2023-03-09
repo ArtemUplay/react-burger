@@ -1,12 +1,11 @@
 import styles from './ingredient-details.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
 
 const IngredientsDetails = ({ setModalActive, itemId, dataArray }) => {
   const data = dataArray.find(item => {
     return item._id === itemId;
   })
-
-  console.log(itemId);
 
   const checkIngridient = (item) => {
     return data ? item : null;
@@ -42,6 +41,12 @@ const IngredientsDetails = ({ setModalActive, itemId, dataArray }) => {
       </ul>
     </>
   )
+}
+
+IngredientsDetails.propTypes = {
+  setModalActive: PropTypes.func,
+  itemId: PropTypes.string,
+  dataArray: PropTypes.array
 }
 
 export default IngredientsDetails;

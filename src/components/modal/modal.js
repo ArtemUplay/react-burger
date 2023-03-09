@@ -1,5 +1,5 @@
 import styles from './modal.module.css';
-import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
 
 const Modal = ({ modalActive, children }) => {
   return (
@@ -7,6 +7,11 @@ const Modal = ({ modalActive, children }) => {
       {children}
     </div>
   );
+}
+
+Modal.propTypes = {
+  modalActive: PropTypes.bool,
+  children: PropTypes.element
 }
 
 export default Modal;
