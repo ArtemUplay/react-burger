@@ -2,10 +2,10 @@ import React from 'react';
 import styles from './burger-ingredients.module.css';
 import ProductCard from '../product-card/product-card';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import ModalOverlay from '../modal-overlay/modal-overlay';
 import Modal from '../modal/modal';
 import IngredientsDetails from '../ingredient-details/ingredient-details';
 import PropTypes from 'prop-types';
+import ingredientsPropTypes from '../utils/utils';
 
 const BurgerIngredients = ({ dataArray, modalIngredientsDetailsActive, setModalIngredientsDetailsActive, getId, itemId }) => {
   const [current, setCurrent] = React.useState('Булки');
@@ -64,21 +64,20 @@ const BurgerIngredients = ({ dataArray, modalIngredientsDetailsActive, setModalI
           </ul>
         </div>
       </section >
-      <ModalOverlay modalActive={modalIngredientsDetailsActive} setModalActive={setModalIngredientsDetailsActive}>
-        <Modal modalActive={modalIngredientsDetailsActive}>
+      <>
+        <Modal modalActive={modalIngredientsDetailsActive} setModalActive={setModalIngredientsDetailsActive} onClose={() => { setModalIngredientsDetailsActive(false) }}>
           <IngredientsDetails setModalActive={setModalIngredientsDetailsActive} itemId={itemId} dataArray={dataArray} />
         </Modal>
-      </ModalOverlay>
+      </>
     </>
-
   );
 }
 
 BurgerIngredients.propTypes = {
-  dataArray: PropTypes.array,
-  modalIngredientsDetailsActive: PropTypes.bool,
-  setModalIngredientsDetailsActive: PropTypes.func,
-  getId: PropTypes.func,
+  dataArray: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes)).isRequired,
+  modalIngredientsDetailsActive: PropTypes.bool.isRequired,
+  setModalIngredientsDetailsActive: PropTypes.func.isRequired,
+  getId: PropTypes.func.isRequired,
   itemId: PropTypes.string
 }
 

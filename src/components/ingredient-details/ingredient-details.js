@@ -1,6 +1,8 @@
 import styles from './ingredient-details.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
+import ingredientsPropTypes from '../utils/utils';
+import ReactDOM from 'react-dom';
 
 const IngredientsDetails = ({ setModalActive, itemId, dataArray }) => {
   const data = dataArray.find(item => {
@@ -12,7 +14,7 @@ const IngredientsDetails = ({ setModalActive, itemId, dataArray }) => {
   }
 
   return (
-    <>
+    <div className={`${styles.wrapper}`}>
       <div className={`pt-10 pl-10 pr-10 ${styles.top}`}>
         <h2 className={` ${styles.title}`}>Детали ингредиента</h2>
         <button className={`${styles.button}`} onClick={() => { return setModalActive(false) }}>
@@ -39,14 +41,14 @@ const IngredientsDetails = ({ setModalActive, itemId, dataArray }) => {
           <span className={`${styles['column-value']}`}>{checkIngridient(data.carbohydrates)}</span>
         </li>
       </ul>
-    </>
+    </div>
   )
 }
 
 IngredientsDetails.propTypes = {
-  setModalActive: PropTypes.func,
+  setModalActive: PropTypes.func.isRequired,
   itemId: PropTypes.string,
-  dataArray: PropTypes.array
+  dataArray: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes)).isRequired,
 }
 
 export default IngredientsDetails;

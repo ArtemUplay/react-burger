@@ -19,7 +19,7 @@ const OrderDetails = ({ setModalActive }) => {
 }
 
 OrderDetails.propTypes = {
-  setModalActive: PropTypes.func,
+  setModalActive: PropTypes.func.isRequired,
 }
 
 export default OrderDetails;

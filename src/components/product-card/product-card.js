@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './product-card.module.css';
 import PropTypes from 'prop-types';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import ingredientsPropTypes from '../utils/utils';
 
 const ProductCard = ({ name, price, image, id, setModalActive, getId }) => {
   return (
@@ -20,10 +21,11 @@ const ProductCard = ({ name, price, image, id, setModalActive, getId }) => {
   );
 }
 
+ProductCard.propTypes = ingredientsPropTypes;
 ProductCard.propTypes = {
-  name: PropTypes.string,
-  price: PropTypes.number,
-  image: PropTypes.string
+  id: PropTypes.string.isRequired,
+  setModalActive: PropTypes.func.isRequired,
+  getId: PropTypes.func.isRequired
 }
 
 export default ProductCard;
