@@ -1,46 +1,54 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
+import { IngredientsContext } from '../../services/ingredientsContext';
+import { checkResponse } from '../utils/utils';
 
 function App() {
   const URL = 'https://norma.nomoreparties.space/api/ingredients';
+  const [burgersState, setBurgersState] = useState([]);
 
-  const [dataArray, setData] = React.useState([]);
-  const [modalIngredientsDetailsActive, setModalIngredientsDetailsActive] = React.useState(false);
-  const [modalOrderDetailsActive, setModalOrderDetailsActive] = React.useState(false);
-  const [itemId, getId] = React.useState(null);
+  const [modalIngredientsDetailsActive, setModalIngredientsDetailsActive] =
+    useState(false);
+  const [modalOrderDetailsActive, setModalOrderDetailsActive] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const getData = () => {
       return fetch(URL)
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          }
-          return Promise.reject('Ошибка');
+        .then((response) => {
+          return checkResponse(response);
         })
-        .then(data => {
+        .then((data) => {
           return data;
-        })
-    }
+        });
+    };
 
-    getData()
-      .then((data) => {
-        setData(data.data);
-      })
-  }, [])
+    getData().then((data) => {
+      setBurgersState(data.data);
+    });
+  }, []);
 
   return (
     <div className={styles.app}>
-      <AppHeader />
-      <main className={styles.main}>
-        <div className={styles['constructor-page']}>
-          <BurgerIngredients dataArray={dataArray} modalIngredientsDetailsActive={modalIngredientsDetailsActive} setModalIngredientsDetailsActive={setModalIngredientsDetailsActive} getId={getId} itemId={itemId} />
-          <BurgerConstructor dataArray={dataArray} modalOrderDetailsActive={modalOrderDetailsActive} setModalOrderDetailsActive={setModalOrderDetailsActive} />
-        </div>
-      </main>
+      <IngredientsContext.Provider value={burgersState}>
+        <AppHeader />
+        <main className={styles.main}>
+          <div className={styles['constructor-page']}>
+            <BurgerIngredients
+              modalIngredientsDetailsActive={modalIngredientsDetailsActive}
+              setModalIngredientsDetailsActive={
+                setModalIngredientsDetailsActive
+              }
+            />
+            <BurgerConstructor
+              modalOrderDetailsActive={modalOrderDetailsActive}
+              setModalOrderDetailsActive={setModalOrderDetailsActive}
+            />
+          </div>
+        </main>
+      </IngredientsContext.Provider>
     </div>
   );
 }
