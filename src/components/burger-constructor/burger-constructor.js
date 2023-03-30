@@ -1,34 +1,30 @@
-import { useContext, useEffect, useState, useMemo } from 'react';
+import { useContext, useState, useMemo } from 'react';
 import styles from './burger-constructor.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import PropTypes from 'prop-types';
-import { checkResponse, ingredientsPropTypes } from '../utils/utils';
+import { checkResponse } from '../utils/utils';
 import { IngredientsContext } from '../../services/ingredientsContext';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const BurgerConstructor = ({ modalOrderDetailsActive, setModalOrderDetailsActive }) => {
   const ingredientsArray = useContext(IngredientsContext);
   const bun = ingredientsArray.find((item) => item.type === 'bun');
-  const [totalPrice, countTotalPrice] = useState(0);
   const URL = 'https://norma.nomoreparties.space/api/orders';
   const constructorIngredientsId = useMemo(() => [], []);
-
-  // Создаём стейт, чтобы при сабмите заказа отправлялся запрос на сервер
-  const [submitOrder, setSubmitOrder] = useState(false);
 
   // Создаём стейт, в который мы положим тело ответа от сервера и затем передадим в попап OrderDetails
   const [orderData, setOrderData] = useState();
 
-  useEffect(() => {
+  const newTotalPrice = useMemo(() => {
     if (bun) {
       if (!constructorIngredientsId.includes(bun._id)) {
         constructorIngredientsId.push(bun._id);
       }
 
-      const newTotalPrice =
+      const totalPrice =
         bun.price * 2 +
         ingredientsArray
           .filter((item) => item.type !== 'bun')
@@ -38,32 +34,37 @@ const BurgerConstructor = ({ modalOrderDetailsActive, setModalOrderDetailsActive
             }
             return sum + item.price;
           }, 0);
-      countTotalPrice(newTotalPrice);
+
+      // Дублируем первый id (id булки) в конец массива
+      constructorIngredientsId.push(constructorIngredientsId.slice(0, 1)[0]);
+
+      return totalPrice;
     }
+    return 0;
   }, [bun, constructorIngredientsId, ingredientsArray]);
 
-  useEffect(() => {
-    if (constructorIngredientsId.length) {
-      const postOrder = async () => {
-        const response = await fetch(URL, {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify({
-            ingredients: constructorIngredientsId,
-          }),
-        });
+  async function postOrder() {
+    const response = await fetch(URL, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        ingredients: constructorIngredientsId,
+      }),
+    });
 
-        const data = await checkResponse(response);
-        setOrderData(data);
-      };
+    const data = await checkResponse(response);
 
-      if (submitOrder) {
-        postOrder();
-      }
-    }
-  }, [submitOrder, constructorIngredientsId]);
+    setOrderData(data);
+  }
+
+  function onClickSubmitButton() {
+    postOrder();
+    setModalOrderDetailsActive(true);
+
+    console.log('Я функция onClick');
+  }
 
   return (
     <>
@@ -81,18 +82,14 @@ const BurgerConstructor = ({ modalOrderDetailsActive, setModalOrderDetailsActive
             ) : null}
           </div>
           <div className={`pr-2 ${styles['main-items']}`}>
-            {ingredientsArray.map((item) => {
-              if (item.type !== 'bun') {
-                return (
-                  <div key={item._id} className={`mb-4 ${styles['item-wrapper']}`}>
-                    <DragIcon type="primary" />
-                    <ConstructorElement text={item.name} price={item.price} thumbnail={item.image} />
-                  </div>
-                );
-              } else {
-                return null;
-              }
-            })}
+            {ingredientsArray
+              .filter((item) => item.type !== 'bun')
+              .map((item) => (
+                <div key={item._id} className={`mb-4 ${styles['item-wrapper']}`}>
+                  <DragIcon type="primary" />
+                  <ConstructorElement text={item.name} price={item.price} thumbnail={item.image} />
+                </div>
+              ))}
           </div>
           <div key={2} className={`mt-4 mr-4 ${styles['item-wrapper']}`}>
             {bun ? (
@@ -108,15 +105,10 @@ const BurgerConstructor = ({ modalOrderDetailsActive, setModalOrderDetailsActive
         </div>
         <div className={`mt-10 ${styles['submit-order-wrapper']}`}>
           <div className={`${styles['wrapper-total-price']}`}>
-            <span className={styles['total-price']}>{totalPrice}</span>
+            <span className={styles['total-price']}>{newTotalPrice}</span>
             <CurrencyIcon />
           </div>
-          <button
-            className={`pt-5 pb-5 pr-10 pl-10 ${styles['submit-order']}`}
-            onClick={() => {
-              setModalOrderDetailsActive(true);
-              setSubmitOrder(true);
-            }}>
+          <button className={`pt-5 pb-5 pr-10 pl-10 ${styles['submit-order']}`} onClick={onClickSubmitButton}>
             Оформить заказ
           </button>
         </div>

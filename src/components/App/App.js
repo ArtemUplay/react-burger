@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
@@ -10,8 +10,7 @@ function App() {
   const URL = 'https://norma.nomoreparties.space/api/ingredients';
   const [burgersState, setBurgersState] = useState([]);
 
-  const [modalIngredientsDetailsActive, setModalIngredientsDetailsActive] =
-    useState(false);
+  const [modalIngredientsDetailsActive, setModalIngredientsDetailsActive] = useState(false);
   const [modalOrderDetailsActive, setModalOrderDetailsActive] = useState(false);
 
   useEffect(() => {
@@ -38,9 +37,7 @@ function App() {
           <div className={styles['constructor-page']}>
             <BurgerIngredients
               modalIngredientsDetailsActive={modalIngredientsDetailsActive}
-              setModalIngredientsDetailsActive={
-                setModalIngredientsDetailsActive
-              }
+              setModalIngredientsDetailsActive={setModalIngredientsDetailsActive}
             />
             <BurgerConstructor
               modalOrderDetailsActive={modalOrderDetailsActive}
