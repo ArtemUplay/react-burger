@@ -13,35 +13,34 @@ const BurgerConstructor = ({ modalOrderDetailsActive, setModalOrderDetailsActive
   const ingredientsArray = useContext(IngredientsContext);
   const bun = ingredientsArray.find((item) => item.type === 'bun');
   const URL = 'https://norma.nomoreparties.space/api/orders';
-  const constructorIngredientsId = useMemo(() => [], []);
+  const ingredients = ingredientsArray.filter((item) => item.type !== 'bun');
 
   // Создаём стейт, в который мы положим тело ответа от сервера и затем передадим в попап OrderDetails
   const [orderData, setOrderData] = useState();
 
   const newTotalPrice = useMemo(() => {
-    if (bun) {
-      if (!constructorIngredientsId.includes(bun._id)) {
-        constructorIngredientsId.push(bun._id);
-      }
+    if (!bun) return 0;
 
-      const totalPrice =
-        bun.price * 2 +
-        ingredientsArray
-          .filter((item) => item.type !== 'bun')
-          .reduce((sum, item) => {
-            if (!constructorIngredientsId.includes(item._id)) {
-              constructorIngredientsId.push(item._id);
-            }
-            return sum + item.price;
-          }, 0);
+    return bun.price * 2 + ingredients.reduce((sum, item) => sum + item.price, 0);
+  }, [bun, ingredients]);
 
-      // Дублируем первый id (id булки) в конец массива
-      constructorIngredientsId.push(constructorIngredientsId.slice(0, 1)[0]);
+  async function postOrder() {
+    const ingredientsIds = [bun._id, ...ingredients.map((item) => item._id), bun._id];
 
-      return totalPrice;
-    }
-    return 0;
-  }, [bun, constructorIngredientsId, ingredientsArray]);
+    const response = await fetch(URL, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        ingredients: ingredientsIds,
+      }),
+    });
+
+    const data = await checkResponse(response);
+
+    setOrderData(data);
+  }
 
   async function postOrder() {
     const response = await fetch(URL, {
@@ -50,7 +49,7 @@ const BurgerConstructor = ({ modalOrderDetailsActive, setModalOrderDetailsActive
         'Content-type': 'application/json',
       },
       body: JSON.stringify({
-        ingredients: constructorIngredientsId,
+        ingredients: ingredients,
       }),
     });
 

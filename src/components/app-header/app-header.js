@@ -13,7 +13,7 @@ const AppHeader = () => {
             <li className={styles.list__item}>
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid*/}
               <a href="#" className={`pl-2 pr-5 pb-4 pt-4 mr-2 ${`${styles.link}`}`}>
-                <BurgerIcon type="primary" />
+                <BurgerIcon type="primary" fill={'#8585AD'} />
                 <span className="ml-2">Конструктор</span>
               </a>
             </li>

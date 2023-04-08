@@ -48,5 +48,9 @@
 .link_disabled {
   pointer-events: none;
   cursor: default;
-  color: #999;
+  color: #8585ad;
+}
+
+.link_disabled > svg {
+  fill: #8585ad;
 }
