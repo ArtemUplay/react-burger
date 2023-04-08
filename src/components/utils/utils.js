@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const ingredientsPropTypes = {
+export const ingredientsPropTypes = {
   name: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
@@ -10,7 +10,13 @@ const ingredientsPropTypes = {
   carbohydrates: PropTypes.number,
   _id: PropTypes.string,
   type: PropTypes.string,
-  __v: PropTypes.number
-}
+  __v: PropTypes.number,
+};
 
-export default ingredientsPropTypes;
+export const checkResponse = (response) => {
+  if (response.ok) {
+    return response.json();
+  }
+
+  return Promise.reject(`Возникла ошибка ${response.status}`);
+};
