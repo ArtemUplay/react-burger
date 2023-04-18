@@ -2,13 +2,13 @@ import { useState, useEffect, useRef } from 'react';
 import styles from './burger-ingredients.module.css';
 import ProductCard from '../product-card/product-card';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { getItems } from '../../services/actions/burger-ingredients';
+import { BUN, SAUCE, MAIN } from '../../constants/constants';
 
 const BurgerIngredients = () => {
   const items = useSelector((store) => store.burgerIngredients.items);
-  const [current, setCurrent] = useState('Булки');
+  const [current, setCurrent] = useState(BUN);
 
   const dispatch = useDispatch();
 
@@ -29,78 +29,75 @@ const BurgerIngredients = () => {
       const mainTitlePosition = mainTitle.current.getBoundingClientRect();
 
       if (tabs.current.clientTop < bunTitlePosition.top) {
-        setCurrent('Булки');
+        setCurrent(BUN);
       } else if (tabs.current.clientTop < sausesTitlePosition.top) {
-        setCurrent('Соусы');
+        setCurrent(SAUCE);
       } else if (tabs.current.clientTop < mainTitlePosition.top) {
-        setCurrent('Начинки');
+        setCurrent(MAIN);
       }
     });
   }, []);
 
-
   return (
-    <>
-      <section className={`pt-10 pb-10 ${styles.menu}`}>
-        <h1 className={`mb-5 ${styles['main-title']}`}>Соберите бургер</h1>
-        <div ref={tabs} className={`mb-10 ${styles.tabs} tabs`}>
-          <a href="#buns" className={styles['tab-link']}>
-            <Tab value="Булки" active={current === 'Булки'} onClick={() => setCurrent('Булки')}>
-              Булки
-            </Tab>
-          </a>
-          <a href="#sauces" className={styles['tab-link']}>
-            <Tab value="Соусы" active={current === 'Соусы'} onClick={() => setCurrent('Соусы')}>
-              Соусы
-            </Tab>
-          </a>
-          <a href="#main" className={styles['tab-link']}>
-            <Tab value="Начинки" active={current === 'Начинки'} onClick={() => setCurrent('Начинки')}>
-              Начинки
-            </Tab>
-          </a>
-        </div>
-
-        <div ref={cardsList} className={`${styles.cards} cards`}>
-          <h2 ref={bunTitle} id="buns" className={`mb-6 ${styles.title}`}>
+    <section className={`pt-10 pb-10 ${styles.menu}`}>
+      <h1 className={`mb-5 ${styles['main-title']}`}>Соберите бургер</h1>
+      <div ref={tabs} className={`mb-10 ${styles.tabs} tabs`}>
+        <a href="#buns" className={styles['tab-link']}>
+          <Tab value={BUN} active={current === BUN} onClick={() => setCurrent(BUN)}>
             Булки
-          </h2>
-          <ul className={`pb-10 ${styles.list}`}>
-            {items.map((product, index) => {
-              if (product.type === 'bun') {
-                return <ProductCard product={product} key={product._id} index={index + Date.now()} />;
-              } else {
-                return null;
-              }
-            })}
-          </ul>
-          <h2 ref={sausesTitle} id="sauces" className={`mb-6 ${styles.title}`}>
+          </Tab>
+        </a>
+        <a href="#sauces" className={styles['tab-link']}>
+          <Tab value={SAUCE} active={current === SAUCE} onClick={() => setCurrent(SAUCE)}>
             Соусы
-          </h2>
-          <ul className={styles.list}>
-            {items.map((product, index) => {
-              if (product.type === 'sauce') {
-                return <ProductCard product={product} key={product._id} index={index + Date.now()} />;
-              } else {
-                return null;
-              }
-            })}
-          </ul>
-          <h2 ref={mainTitle} id="main" className={`mb-6 ${styles.title}`}>
+          </Tab>
+        </a>
+        <a href="#main" className={styles['tab-link']}>
+          <Tab value={MAIN} active={current === MAIN} onClick={() => setCurrent(MAIN)}>
             Начинки
-          </h2>
-          <ul className={styles.list}>
-            {items.map((product, index) => {
-              if (product.type === 'main') {
-                return <ProductCard key={product._id} product={product} index={index + Date.now()} />;
-              } else {
-                return null;
-              }
-            })}
-          </ul>
-        </div>
-      </section>
-    </>
+          </Tab>
+        </a>
+      </div>
+
+      <div ref={cardsList} className={`${styles.cards} cards`}>
+        <h2 ref={bunTitle} id="buns" className={`mb-6 ${styles.title}`}>
+          Булки
+        </h2>
+        <ul className={`pb-10 ${styles.list}`}>
+          {items.map((product) => {
+            if (product.type === BUN) {
+              return <ProductCard product={product} key={product._id} />;
+            } else {
+              return null;
+            }
+          })}
+        </ul>
+        <h2 ref={sausesTitle} id="sauces" className={`mb-6 ${styles.title}`}>
+          Соусы
+        </h2>
+        <ul className={styles.list}>
+          {items.map((product) => {
+            if (product.type === SAUCE) {
+              return <ProductCard product={product} key={product._id} />;
+            } else {
+              return null;
+            }
+          })}
+        </ul>
+        <h2 ref={mainTitle} id="main" className={`mb-6 ${styles.title}`}>
+          Начинки
+        </h2>
+        <ul className={styles.list}>
+          {items.map((product) => {
+            if (product.type === MAIN) {
+              return <ProductCard key={product._id} product={product} />;
+            } else {
+              return null;
+            }
+          })}
+        </ul>
+      </div>
+    </section>
   );
 };
 

@@ -1,4 +1,4 @@
-import { GET_ORDER_NUMBER } from '../actions/order-details';
+import { GET_ORDER_NUMBER, DELETE_ORDER_NUMBER } from '../actions/order-details';
 
 const initialState = {
   order: {
@@ -14,6 +14,15 @@ export const orderDetailsReducer = (state = initialState, action) => {
         order: {
           ...state.order,
           number: action.number,
+        },
+      };
+    }
+    case DELETE_ORDER_NUMBER: {
+      return {
+        ...state,
+        order: {
+          ...state.order,
+          number: null,
         },
       };
     }

@@ -2,7 +2,6 @@ import {
   SET_CONSTRUCTOR_BUN,
   SET_CONSTRUCTOR_INGRIDIENT,
   DELETE_CONSTRUCTOR_INGREDIENT,
-  UPDATE_ORDER_INGREDIENTS,
 } from '../actions/burger-constructor';
 
 const initialState = {
@@ -16,6 +15,7 @@ export const BurgerConstructorReducer = (state = initialState, action) => {
         (item) => item.type !== 'bun'
       );
       newBurgerConstructorIngredients.unshift(action.ingredient);
+
       return {
         ...state,
         burgerConstructorIngredients: newBurgerConstructorIngredients,

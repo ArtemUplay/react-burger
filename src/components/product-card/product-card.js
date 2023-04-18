@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import styles from './product-card.module.css';
 import PropTypes from 'prop-types';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -7,14 +7,15 @@ import Modal from '../modal/modal';
 import IngredientsDetails from '../ingredient-details/ingredient-details';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from 'react-dnd';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { DELETE_CURRENT_INGREDIENT, SET_CURRENT_INGREDIENT } from '../../services/actions/ingredient-details';
 
 const ProductCard = ({ product }) => {
   const burgerConstructorIngredients = useSelector((store) => store.burgerConstructor.burgerConstructorIngredients);
+  const currentIngredient = useSelector((store) => store.ingredientDetails.currentIngredient);
   const ingredientId = product._id;
 
-  const [countIngredient, setCountIngredient] = useState(0);
-  const [modalIngredientsDetailsActive, setModalIngredientsDetailsActive] = useState(false);
+  const dispatch = useDispatch();
 
   const [{ isDragging }, dragRef] = useDrag({
     type: 'ingredient',
@@ -24,8 +25,8 @@ const ProductCard = ({ product }) => {
     }),
   });
 
-  useMemo(() => {
-    const count = burgerConstructorIngredients.reduce((sum, ingredient) => {
+  const countIngredient = useMemo(() => {
+    return burgerConstructorIngredients.reduce((sum, ingredient) => {
       if (ingredient.type === 'bun' && ingredientId === ingredient._id) {
         return sum + 2;
       } else if (ingredient._id === product._id) {
@@ -34,7 +35,6 @@ const ProductCard = ({ product }) => {
         return sum;
       }
     }, 0);
-    setCountIngredient(count);
   }, [product, burgerConstructorIngredients, ingredientId]);
 
   return (
@@ -43,7 +43,10 @@ const ProductCard = ({ product }) => {
         id={product._id}
         className={`pb-8 ${styles.card}`}
         onClick={() => {
-          setModalIngredientsDetailsActive(true);
+          dispatch({
+            type: SET_CURRENT_INGREDIENT,
+            currentIngredient: product,
+          });
         }}
         ref={dragRef}
         style={{ backgroundColor: isDragging ? '#24247c' : '' }}>
@@ -58,14 +61,16 @@ const ProductCard = ({ product }) => {
         </a>
         <Counter count={countIngredient} size="default" />
       </li>
-      <Modal
-        modalActive={modalIngredientsDetailsActive}
-        setModalActive={setModalIngredientsDetailsActive}
-        onClose={() => {
-          setModalIngredientsDetailsActive(false);
-        }}>
-        <IngredientsDetails setModalActive={setModalIngredientsDetailsActive} itemId={ingredientId} />
-      </Modal>
+      {currentIngredient && (
+        <Modal
+          onClose={() => {
+            dispatch({
+              type: DELETE_CURRENT_INGREDIENT,
+            });
+          }}>
+          <IngredientsDetails />
+        </Modal>
+      )}
     </>
   );
 };

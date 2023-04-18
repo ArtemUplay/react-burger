@@ -29,8 +29,9 @@ export const collectIngredientsInArray = (burgerConstructorIngredients) => {
   ingredients.push(bunItem._id);
   ingredients.push(
     ...burgerConstructorIngredients.map((item) => {
-      if (item.type !== 'bun');
-      return item._id;
+      if (item.type !== 'bun') {
+        return item._id;
+      }
     })
   );
   ingredients.push(bunItem._id);

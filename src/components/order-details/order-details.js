@@ -1,18 +1,21 @@
 import styles from './order-details.module.css';
 import done from '../../images/done.png';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { DELETE_ORDER_NUMBER } from '../../services/actions/order-details';
 
-const OrderDetails = ({ setModalActive }) => {
+const OrderDetails = () => {
   const orderNumber = useSelector((store) => store.orderDetails.order.number);
+  const dispatch = useDispatch();
 
   return (
     <div className={`pl-25 pr-25 ${styles.wrapper}`}>
       <button
         className={`${styles.button}`}
         onClick={() => {
-          return setModalActive(false);
+          dispatch({
+            type: DELETE_ORDER_NUMBER,
+          });
         }}>
         <CloseIcon type="primary" />
       </button>
@@ -25,10 +28,6 @@ const OrderDetails = ({ setModalActive }) => {
       </p>
     </div>
   );
-};
-
-OrderDetails.propTypes = {
-  setModalActive: PropTypes.func.isRequired,
 };
 
 export default OrderDetails;

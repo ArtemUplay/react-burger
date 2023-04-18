@@ -1,7 +1,7 @@
 import { SET_CURRENT_INGREDIENT, DELETE_CURRENT_INGREDIENT } from '../actions/ingredient-details';
 
 const initialState = {
-  currentIngredient: {},
+  currentIngredient: null,
 };
 
 export const ingredientsDetailsReducer = (state = initialState, action) => {
@@ -15,7 +15,7 @@ export const ingredientsDetailsReducer = (state = initialState, action) => {
     case DELETE_CURRENT_INGREDIENT: {
       return {
         ...state,
-        currentIngredient: {},
+        currentIngredient: null,
       };
     }
     default: {

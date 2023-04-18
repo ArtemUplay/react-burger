@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useCallback, createRef } from 'react';
+import { useMemo } from 'react';
 import styles from './burger-constructor.module.css';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -9,16 +9,14 @@ import { checkResponse } from '../utils/utils';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIngredientToConstructor } from '../../services/actions/burger-constructor';
-import { GET_ORDER_NUMBER } from '../../services/actions/order-details';
+import { DELETE_ORDER_NUMBER, GET_ORDER_NUMBER } from '../../services/actions/order-details';
 import { useDrop } from 'react-dnd';
+import { URL } from '../../constants/constants';
 
 const BurgerConstructor = () => {
   const burgerConstructorIngredients = useSelector((store) => store.burgerConstructor.burgerConstructorIngredients);
   const items = useSelector((store) => store.burgerIngredients.items);
-  const [modalOrderDetailsActive, setModalOrderDetailsActive] = useState(false);
-  const URL = 'https://norma.nomoreparties.space/api/orders';
-
-  const [totalPrice, countTotalPrice] = useState(0);
+  const orderNumber = useSelector((store) => store.orderDetails.order.number);
 
   const dispatch = useDispatch();
   const bun = burgerConstructorIngredients.find((item) => item.type === 'bun');
@@ -33,16 +31,14 @@ const BurgerConstructor = () => {
     }),
   });
 
-  useMemo(() => {
-    countTotalPrice(
-      burgerConstructorIngredients.reduce((sum, item) => {
-        if (item.type === 'bun') {
-          return sum + item.price * 2;
-        }
+  const totalPrice = useMemo(() => {
+    return burgerConstructorIngredients.reduce((sum, item) => {
+      if (item.type === 'bun') {
+        return sum + item.price * 2;
+      }
 
-        return sum + item.price;
-      }, 0)
-    );
+      return sum + item.price;
+    }, 0);
   }, [burgerConstructorIngredients]);
 
   async function postOrder() {
@@ -66,7 +62,6 @@ const BurgerConstructor = () => {
 
   function onClickSubmitButton() {
     postOrder();
-    setModalOrderDetailsActive(true);
   }
 
   return (
@@ -110,7 +105,7 @@ const BurgerConstructor = () => {
         </div>
         <div className={`mt-10 ${styles['submit-order-wrapper']}`}>
           <div className={`${styles['wrapper-total-price']}`}>
-            <span className={styles['total-price']}>{totalPrice}</span>
+            <span className={styles['total-price']}>{totalPrice ? totalPrice : 0}</span>
             <CurrencyIcon />
           </div>
           <button className={`pt-5 pb-5 pr-10 pl-10 ${styles['submit-order']}`} onClick={onClickSubmitButton}>
@@ -119,14 +114,16 @@ const BurgerConstructor = () => {
         </div>
       </section>
       <>
-        <Modal
-          modalActive={modalOrderDetailsActive}
-          setModalActive={setModalOrderDetailsActive}
-          onClose={() => {
-            setModalOrderDetailsActive(false);
-          }}>
-          <OrderDetails setModalActive={setModalOrderDetailsActive} />
-        </Modal>
+        {orderNumber && (
+          <Modal
+            onClose={() => {
+              dispatch({
+                type: DELETE_ORDER_NUMBER,
+              });
+            }}>
+            <OrderDetails />
+          </Modal>
+        )}
       </>
     </>
   );
