@@ -2,16 +2,13 @@ import { useState, useEffect, useRef } from 'react';
 import styles from './burger-ingredients.module.css';
 import ProductCard from '../product-card/product-card';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from '../modal/modal';
-import IngredientsDetails from '../ingredient-details/ingredient-details';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { getItems } from '../../services/actions/burger-ingredients';
 
 const BurgerIngredients = () => {
-  const [modalIngredientsDetailsActive, setModalIngredientsDetailsActive] = useState(false);
+  const items = useSelector((store) => store.burgerIngredients.items);
   const [current, setCurrent] = useState('Булки');
-  const [itemId, getId] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -41,7 +38,6 @@ const BurgerIngredients = () => {
     });
   }, []);
 
-  const items = useSelector((store) => store.burgerIngredients.items);
 
   return (
     <>
@@ -72,15 +68,7 @@ const BurgerIngredients = () => {
           <ul className={`pb-10 ${styles.list}`}>
             {items.map((product, index) => {
               if (product.type === 'bun') {
-                return (
-                  <ProductCard
-                    product={product}
-                    key={product._id}
-                    index={index + Date.now()}
-                    setModalActive={setModalIngredientsDetailsActive}
-                    getId={getId}
-                  />
-                );
+                return <ProductCard product={product} key={product._id} index={index + Date.now()} />;
               } else {
                 return null;
               }
@@ -92,15 +80,7 @@ const BurgerIngredients = () => {
           <ul className={styles.list}>
             {items.map((product, index) => {
               if (product.type === 'sauce') {
-                return (
-                  <ProductCard
-                    product={product}
-                    key={product._id}
-                    index={index + Date.now()}
-                    setModalActive={setModalIngredientsDetailsActive}
-                    getId={getId}
-                  />
-                );
+                return <ProductCard product={product} key={product._id} index={index + Date.now()} />;
               } else {
                 return null;
               }
@@ -112,15 +92,7 @@ const BurgerIngredients = () => {
           <ul className={styles.list}>
             {items.map((product, index) => {
               if (product.type === 'main') {
-                return (
-                  <ProductCard
-                    key={product._id}
-                    product={product}
-                    index={index + Date.now()}
-                    setModalActive={setModalIngredientsDetailsActive}
-                    getId={getId}
-                  />
-                );
+                return <ProductCard key={product._id} product={product} index={index + Date.now()} />;
               } else {
                 return null;
               }
@@ -128,14 +100,6 @@ const BurgerIngredients = () => {
           </ul>
         </div>
       </section>
-      <Modal
-        modalActive={modalIngredientsDetailsActive}
-        setModalActive={setModalIngredientsDetailsActive}
-        onClose={() => {
-          setModalIngredientsDetailsActive(false);
-        }}>
-        <IngredientsDetails setModalActive={setModalIngredientsDetailsActive} itemId={itemId} dataArray={items} />
-      </Modal>
     </>
   );
 };

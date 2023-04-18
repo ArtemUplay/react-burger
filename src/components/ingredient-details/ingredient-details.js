@@ -1,15 +1,15 @@
 import styles from './ingredient-details.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
-import { ingredientsPropTypes } from '../utils/utils';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { SET_CURRENT_INGREDIENT, DELETE_CURRENT_INGREDIENT } from '../../services/actions/ingredient-details';
 import { useEffect } from 'react';
 
-const IngredientsDetails = ({ setModalActive, itemId, dataArray }) => {
+const IngredientsDetails = ({ setModalActive, itemId }) => {
+  const items = useSelector((store) => store.burgerIngredients.items);
   const dispatch = useDispatch();
 
-  const data = dataArray.find((item) => {
+  const data = items.find((item) => {
     return item._id === itemId;
   });
 
@@ -69,7 +69,6 @@ const IngredientsDetails = ({ setModalActive, itemId, dataArray }) => {
 IngredientsDetails.propTypes = {
   setModalActive: PropTypes.func.isRequired,
   itemId: PropTypes.string,
-  dataArray: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes)).isRequired,
 };
 
 export default IngredientsDetails;
