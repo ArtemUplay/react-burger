@@ -20,3 +20,21 @@ export const checkResponse = (response) => {
 
   return Promise.reject(`Возникла ошибка ${response.status}`);
 };
+
+export const collectIngredientsInArray = (burgerConstructorIngredients) => {
+  const ingredients = [];
+
+  const bunItem = burgerConstructorIngredients.find((item) => item.type === 'bun');
+
+  ingredients.push(bunItem._id);
+  ingredients.push(
+    ...burgerConstructorIngredients.map((item) => {
+      if (item.type !== 'bun') {
+        return item._id;
+      }
+    })
+  );
+  ingredients.push(bunItem._id);
+
+  return ingredients;
+};

@@ -1,145 +1,104 @@
-import React, { useState, useContext } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './burger-ingredients.module.css';
 import ProductCard from '../product-card/product-card';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from '../modal/modal';
-import IngredientsDetails from '../ingredient-details/ingredient-details';
-import PropTypes from 'prop-types';
-import { IngredientsContext } from '../../services/ingredientsContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { getItems } from '../../services/actions/burger-ingredients';
+import { BUN, SAUCE, MAIN } from '../../constants/constants';
 
-const BurgerIngredients = ({
-  modalIngredientsDetailsActive,
-  setModalIngredientsDetailsActive,
-}) => {
-  const ingredientsArray = useContext(IngredientsContext);
-  const [current, setCurrent] = useState('Булки');
+const BurgerIngredients = () => {
+  const items = useSelector((store) => store.burgerIngredients.items);
+  const [current, setCurrent] = useState(BUN);
 
-  const [itemId, getId] = useState(null);
+  const dispatch = useDispatch();
+
+  const tabs = useRef(null);
+  const cardsList = useRef(null);
+  const bunTitle = useRef(null);
+  const sausesTitle = useRef(null);
+  const mainTitle = useRef(null);
+
+  useEffect(() => {
+    dispatch(getItems());
+  }, [dispatch]);
+
+  useEffect(() => {
+    cardsList.current.addEventListener('scroll', () => {
+      const bunTitlePosition = bunTitle.current.getBoundingClientRect();
+      const sausesTitlePosition = sausesTitle.current.getBoundingClientRect();
+      const mainTitlePosition = mainTitle.current.getBoundingClientRect();
+
+      if (tabs.current.clientTop < bunTitlePosition.top) {
+        setCurrent(BUN);
+      } else if (tabs.current.clientTop < sausesTitlePosition.top) {
+        setCurrent(SAUCE);
+      } else if (tabs.current.clientTop < mainTitlePosition.top) {
+        setCurrent(MAIN);
+      }
+    });
+  }, []);
 
   return (
-    <>
-      <section className={`pt-10 pb-10 ${styles.menu}`}>
-        <h1 className={`mb-5 ${styles['main-title']}`}>Соберите бургер</h1>
-        <div className={`mb-10 ${styles.tabs}`}>
-          <a href='#buns' className={styles['tab-link']}>
-            <Tab
-              value='Булки'
-              active={current === 'Булки'}
-              onClick={setCurrent}
-            >
-              Булки
-            </Tab>
-          </a>
-          <a href='#sauces' className={styles['tab-link']}>
-            <Tab
-              value='Соусы'
-              active={current === 'Соусы'}
-              onClick={setCurrent}
-            >
-              Соусы
-            </Tab>
-          </a>
-          <a href='#main' className={styles['tab-link']}>
-            <Tab
-              value='Начинки'
-              active={current === 'Начинки'}
-              onClick={setCurrent}
-            >
-              Начинки
-            </Tab>
-          </a>
-        </div>
-        <div className={styles.cards}>
-          <h2 id='buns' className={`mb-6 ${styles.title}`}>
+    <section className={`pt-10 pb-10 ${styles.menu}`}>
+      <h1 className={`mb-5 ${styles['main-title']}`}>Соберите бургер</h1>
+      <div ref={tabs} className={`mb-10 ${styles.tabs} tabs`}>
+        <a href="#buns" className={styles['tab-link']}>
+          <Tab value={BUN} active={current === BUN} onClick={() => setCurrent(BUN)}>
             Булки
-          </h2>
-          <ul className={`pb-10 ${styles.list}`}>
-            {ingredientsArray.map((product) => {
-              if (product.type === 'bun') {
-                return (
-                  <ProductCard
-                    key={product._id}
-                    name={product.name}
-                    price={product.price}
-                    image={product.image}
-                    id={product._id}
-                    setModalActive={setModalIngredientsDetailsActive}
-                    getId={getId}
-                  />
-                );
-              } else {
-                return null;
-              }
-            })}
-          </ul>
-          <h2 id='sauces' className={`mb-6 ${styles.title}`}>
+          </Tab>
+        </a>
+        <a href="#sauces" className={styles['tab-link']}>
+          <Tab value={SAUCE} active={current === SAUCE} onClick={() => setCurrent(SAUCE)}>
             Соусы
-          </h2>
-          <ul className={styles.list}>
-            {ingredientsArray.map((product) => {
-              if (product.type === 'sauce') {
-                return (
-                  <ProductCard
-                    key={product._id}
-                    name={product.name}
-                    price={product.price}
-                    image={product.image}
-                    id={product._id}
-                    setModalActive={setModalIngredientsDetailsActive}
-                    getId={getId}
-                  />
-                );
-              } else {
-                return null;
-              }
-            })}
-          </ul>
-          <h2 id='main' className={`mb-6 ${styles.title}`}>
+          </Tab>
+        </a>
+        <a href="#main" className={styles['tab-link']}>
+          <Tab value={MAIN} active={current === MAIN} onClick={() => setCurrent(MAIN)}>
             Начинки
-          </h2>
-          <ul className={styles.list}>
-            {ingredientsArray.map((product) => {
-              if (product.type === 'main') {
-                return (
-                  <ProductCard
-                    key={product._id}
-                    name={product.name}
-                    price={product.price}
-                    image={product.image}
-                    id={product._id}
-                    setModalActive={setModalIngredientsDetailsActive}
-                    getId={getId}
-                  />
-                );
-              } else {
-                return null;
-              }
-            })}
-          </ul>
-        </div>
-      </section>
-      <>
-        <Modal
-          modalActive={modalIngredientsDetailsActive}
-          setModalActive={setModalIngredientsDetailsActive}
-          onClose={() => {
-            setModalIngredientsDetailsActive(false);
-          }}
-        >
-          <IngredientsDetails
-            setModalActive={setModalIngredientsDetailsActive}
-            itemId={itemId}
-            dataArray={ingredientsArray}
-          />
-        </Modal>
-      </>
-    </>
-  );
-};
+          </Tab>
+        </a>
+      </div>
 
-BurgerIngredients.propTypes = {
-  modalIngredientsDetailsActive: PropTypes.bool.isRequired,
-  setModalIngredientsDetailsActive: PropTypes.func.isRequired,
+      <div ref={cardsList} className={`${styles.cards} cards`}>
+        <h2 ref={bunTitle} id="buns" className={`mb-6 ${styles.title}`}>
+          Булки
+        </h2>
+        <ul className={`pb-10 ${styles.list}`}>
+          {items.map((product) => {
+            if (product.type === BUN) {
+              return <ProductCard product={product} key={product._id} />;
+            } else {
+              return null;
+            }
+          })}
+        </ul>
+        <h2 ref={sausesTitle} id="sauces" className={`mb-6 ${styles.title}`}>
+          Соусы
+        </h2>
+        <ul className={styles.list}>
+          {items.map((product) => {
+            if (product.type === SAUCE) {
+              return <ProductCard product={product} key={product._id} />;
+            } else {
+              return null;
+            }
+          })}
+        </ul>
+        <h2 ref={mainTitle} id="main" className={`mb-6 ${styles.title}`}>
+          Начинки
+        </h2>
+        <ul className={styles.list}>
+          {items.map((product) => {
+            if (product.type === MAIN) {
+              return <ProductCard key={product._id} product={product} />;
+            } else {
+              return null;
+            }
+          })}
+        </ul>
+      </div>
+    </section>
+  );
 };
 
 export default BurgerIngredients;

@@ -1,16 +1,11 @@
 import styles from './ingredient-details.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import { ingredientsPropTypes } from '../utils/utils';
+import { useDispatch, useSelector } from 'react-redux';
+import { DELETE_CURRENT_INGREDIENT } from '../../services/actions/ingredient-details';
 
-const IngredientsDetails = ({ setModalActive, itemId, dataArray }) => {
-  const data = dataArray.find((item) => {
-    return item._id === itemId;
-  });
-
-  const checkIngridient = (item) => {
-    return data ? item : null;
-  };
+const IngredientsDetails = () => {
+  const currentIngredient = useSelector((store) => store.ingredientDetails.currentIngredient);
+  const dispatch = useDispatch();
 
   return (
     <div className={`${styles.wrapper}`}>
@@ -19,55 +14,35 @@ const IngredientsDetails = ({ setModalActive, itemId, dataArray }) => {
         <button
           className={`${styles.button}`}
           onClick={() => {
-            return setModalActive(false);
-          }}
-        >
-          <CloseIcon type='primary' />
+            dispatch({
+              type: DELETE_CURRENT_INGREDIENT,
+            });
+          }}>
+          <CloseIcon type="primary" />
         </button>
       </div>
-      <img
-        className={`${styles.image}`}
-        src={checkIngridient(data.image)}
-        alt={checkIngridient(data.name)}
-      />
-      <h3 className={`mt-4 mb-8 ${styles.name}`}>
-        {checkIngridient(data.name)}
-      </h3>
+      <img className={`${styles.image}`} src={currentIngredient.image} alt={currentIngredient.name} />
+      <h3 className={`mt-4 mb-8 ${styles.name}`}>{currentIngredient.name}</h3>
       <ul className={`${styles.list}`}>
         <li className={`${styles.column}`}>
           <span className={`${styles['column-name']}`}>Калории,ккал</span>
-          <span className={`${styles['column-value']}`}>
-            {checkIngridient(data.calories)}
-          </span>
+          <span className={`${styles['column-value']}`}>{currentIngredient.calories}</span>
         </li>
         <li className={`${styles.column}`}>
           <span className={`${styles['column-name']}`}>Белки, г</span>
-          <span className={`${styles['column-value']}`}>
-            {checkIngridient(data.proteins)}
-          </span>
+          <span className={`${styles['column-value']}`}>{currentIngredient.proteins}</span>
         </li>
         <li className={`${styles.column}`}>
           <span className={`${styles['column-name']}`}>Жиры, г</span>
-          <span className={`${styles['column-value']}`}>
-            {checkIngridient(data.fat)}
-          </span>
+          <span className={`${styles['column-value']}`}>{currentIngredient.fat}</span>
         </li>
         <li className={`${styles.column}`}>
           <span className={`${styles['column-name']}`}>Углеводы, г</span>
-          <span className={`${styles['column-value']}`}>
-            {checkIngridient(data.carbohydrates)}
-          </span>
+          <span className={`${styles['column-value']}`}>{currentIngredient.carbohydrates}</span>
         </li>
       </ul>
     </div>
   );
-};
-
-IngredientsDetails.propTypes = {
-  setModalActive: PropTypes.func.isRequired,
-  itemId: PropTypes.string,
-  dataArray: PropTypes.arrayOf(PropTypes.shape(ingredientsPropTypes))
-    .isRequired,
 };
 
 export default IngredientsDetails;

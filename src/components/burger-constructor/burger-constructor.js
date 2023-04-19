@@ -1,74 +1,78 @@
-import { useContext, useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import styles from './burger-constructor.module.css';
+import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import PropTypes from 'prop-types';
+import { collectIngredientsInArray } from '../utils/utils';
 import { checkResponse } from '../utils/utils';
-import { IngredientsContext } from '../../services/ingredientsContext';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIngredientToConstructor } from '../../services/actions/burger-constructor';
+import { DELETE_ORDER_NUMBER, GET_ORDER_NUMBER } from '../../services/actions/order-details';
+import { useDrop } from 'react-dnd';
+import { URL } from '../../constants/constants';
 
-const BurgerConstructor = ({ modalOrderDetailsActive, setModalOrderDetailsActive }) => {
-  const ingredientsArray = useContext(IngredientsContext);
-  const bun = ingredientsArray.find((item) => item.type === 'bun');
-  const URL = 'https://norma.nomoreparties.space/api/orders';
-  const ingredients = ingredientsArray.filter((item) => item.type !== 'bun');
+const BurgerConstructor = () => {
+  const burgerConstructorIngredients = useSelector((store) => store.burgerConstructor.burgerConstructorIngredients);
+  const items = useSelector((store) => store.burgerIngredients.items);
+  const orderNumber = useSelector((store) => store.orderDetails.order.number);
 
-  // Создаём стейт, в который мы положим тело ответа от сервера и затем передадим в попап OrderDetails
-  const [orderData, setOrderData] = useState();
+  const dispatch = useDispatch();
+  const bun = burgerConstructorIngredients.find((item) => item.type === 'bun');
 
-  const newTotalPrice = useMemo(() => {
-    if (!bun) return 0;
+  const [{ isOver }, dropRef] = useDrop({
+    accept: 'ingredient',
+    drop: ({ ingredientId }) => {
+      dispatch(setIngredientToConstructor(ingredientId, items));
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  });
 
-    return bun.price * 2 + ingredients.reduce((sum, item) => sum + item.price, 0);
-  }, [bun, ingredients]);
+  const totalPrice = useMemo(() => {
+    return burgerConstructorIngredients.reduce((sum, item) => {
+      if (item.type === 'bun') {
+        return sum + item.price * 2;
+      }
+
+      return sum + item.price;
+    }, 0);
+  }, [burgerConstructorIngredients]);
 
   async function postOrder() {
-    const ingredientsIds = [bun._id, ...ingredients.map((item) => item._id), bun._id];
-
     const response = await fetch(URL, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
       },
       body: JSON.stringify({
-        ingredients: ingredientsIds,
+        ingredients: [...collectIngredientsInArray(burgerConstructorIngredients)],
       }),
     });
 
     const data = await checkResponse(response);
 
-    setOrderData(data);
-  }
-
-  async function postOrder() {
-    const response = await fetch(URL, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        ingredients: ingredients,
-      }),
+    dispatch({
+      type: GET_ORDER_NUMBER,
+      number: data.order.number,
     });
-
-    const data = await checkResponse(response);
-
-    setOrderData(data);
   }
 
   function onClickSubmitButton() {
     postOrder();
-    setModalOrderDetailsActive(true);
-
-    console.log('Я функция onClick');
   }
 
   return (
     <>
       <section className={`pt-25 ${styles.section}`}>
-        <div className={`${styles.list}`}>
+        <div
+          ref={dropRef}
+          className={`${styles.list}`}
+          style={{
+            outlineStyle: isOver ? 'solid' : '',
+          }}>
           <div key={1} className={`mb-4 mr-4 ${styles['item-wrapper']}`}>
             {bun ? (
               <ConstructorElement
@@ -80,16 +84,13 @@ const BurgerConstructor = ({ modalOrderDetailsActive, setModalOrderDetailsActive
               />
             ) : null}
           </div>
-          <div className={`pr-2 ${styles['main-items']}`}>
-            {ingredientsArray
+          <ul className={`pr-2 ${styles['main-items']}`} ref={dropRef}>
+            {burgerConstructorIngredients
               .filter((item) => item.type !== 'bun')
-              .map((item) => (
-                <div key={item._id} className={`mb-4 ${styles['item-wrapper']}`}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement text={item.name} price={item.price} thumbnail={item.image} />
-                </div>
-              ))}
-          </div>
+              .map((item) => {
+                return <BurgerConstructorItem key={item.uniqueId + item._id} uniqueId={item.uniqueId} item={item} />;
+              })}
+          </ul>
           <div key={2} className={`mt-4 mr-4 ${styles['item-wrapper']}`}>
             {bun ? (
               <ConstructorElement
@@ -104,7 +105,7 @@ const BurgerConstructor = ({ modalOrderDetailsActive, setModalOrderDetailsActive
         </div>
         <div className={`mt-10 ${styles['submit-order-wrapper']}`}>
           <div className={`${styles['wrapper-total-price']}`}>
-            <span className={styles['total-price']}>{newTotalPrice}</span>
+            <span className={styles['total-price']}>{totalPrice ? totalPrice : 0}</span>
             <CurrencyIcon />
           </div>
           <button className={`pt-5 pb-5 pr-10 pl-10 ${styles['submit-order']}`} onClick={onClickSubmitButton}>
@@ -113,22 +114,19 @@ const BurgerConstructor = ({ modalOrderDetailsActive, setModalOrderDetailsActive
         </div>
       </section>
       <>
-        <Modal
-          modalActive={modalOrderDetailsActive}
-          setModalActive={setModalOrderDetailsActive}
-          onClose={() => {
-            setModalOrderDetailsActive(false);
-          }}>
-          <OrderDetails setModalActive={setModalOrderDetailsActive} orderData={orderData} />
-        </Modal>
+        {orderNumber && (
+          <Modal
+            onClose={() => {
+              dispatch({
+                type: DELETE_ORDER_NUMBER,
+              });
+            }}>
+            <OrderDetails />
+          </Modal>
+        )}
       </>
     </>
   );
-};
-
-BurgerConstructor.propTypes = {
-  modalOrderDetailsActive: PropTypes.bool.isRequired,
-  setModalOrderDetailsActive: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

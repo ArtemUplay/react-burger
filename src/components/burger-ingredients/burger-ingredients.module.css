@@ -1,4 +1,5 @@
-.menu {}
+.menu {
+}
 
 .tabs {
   display: flex;
@@ -14,8 +15,8 @@
   font-weight: 700;
   font-size: 36px;
   line-height: 40px;
-  color: #F2F2F3;
-  font-family: 'JetBrainsMono', Arial, "Helvetica Neue", Helvetica, sans-serif;
+  color: #f2f2f3;
+  font-family: 'JetBrainsMono', Arial, 'Helvetica Neue', Helvetica, sans-serif;
   margin-top: 0;
 }
 
@@ -27,19 +28,19 @@
 
 .cards::-webkit-scrollbar {
   width: 8px;
-  background-color: #2F2F37;
+  background-color: #2f2f37;
 }
 
 .cards::-webkit-scrollbar-thumb {
-  background-color: #8585AD;
+  background-color: #8585ad;
 }
 
 .title {
   font-weight: 700;
   font-size: 24px;
   line-height: 30px;
-  font-family: 'JetBrainsMono', Arial, "Helvetica Neue", Helvetica, sans-serif;
-  color: #F2F2F3;
+  font-family: 'JetBrainsMono', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  color: #f2f2f3;
   margin-top: 0;
   scroll-behavior: smooth;
 }
@@ -51,4 +52,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px 24px;
+}
+
+.card-wrapper {
+  position: relative;
 }
