@@ -26,20 +26,3 @@ export const postOrder = async (
     number: data.order.number,
   });
 };
-
-export const sendResetPassword = async (password, token) => {
-  const response = await fetch(`${URL}/password-reset/reset`, {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      password,
-      token,
-    }),
-  });
-
-  const data = await checkResponse(response);
-
-  return data;
-};
