@@ -2,6 +2,7 @@ import {
   checkResponse,
   setCookie,
   deleteCookie,
+  getCookie,
 } from '../../components/utils/utils';
 import { URL } from '../../constants/constants';
 
@@ -65,6 +66,10 @@ export function patchProfileData(formData, accessToken) {
         dispatch({ type: POST_LOGOUT_PROFILE_SUCCESS, success: data.success });
       })
       .catch((error) => {
+        if (error.message === 'jwt expired') {
+          dispatch(updateToken());
+        }
+
         dispatch({
           type: GET_PROFILE_DATA_FAILED,
         });
@@ -74,7 +79,7 @@ export function patchProfileData(formData, accessToken) {
   };
 }
 
-export function updateToken(refreshToken) {
+export function updateToken() {
   return function (dispatch) {
     dispatch({ type: UPDATE_TOKEN_REQUEST });
 
@@ -83,7 +88,7 @@ export function updateToken(refreshToken) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token: refreshToken }),
+      body: JSON.stringify({ token: getCookie('refreshToken') }),
     })
       .then((response) => checkResponse(response))
       .then((data) => {
@@ -114,9 +119,12 @@ export function getProfileData(accessToken) {
         dispatch({ type: GET_PROFILE_DATA_SUCCESS, profileUserData });
       })
       .catch((error) => {
-        dispatch({ type: GET_PROFILE_DATA_FAILED });
-
-        console.log(error);
+        if (error.message === 'jwt expired') {
+          dispatch(updateToken());
+        } else {
+          dispatch({ type: GET_PROFILE_DATA_FAILED });
+          console.log(error);
+        }
       });
   };
 }

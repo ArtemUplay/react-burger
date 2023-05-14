@@ -7,8 +7,8 @@ import {
 import styles from './forgot-password.module.css';
 import { useNavigate, Link } from 'react-router-dom';
 import {
-  pathLoginPage,
-  pathResetPasswordPage,
+  PATH_LOGIN_PAGE,
+  PATH_RESET_PASSWORD_PAGE,
 } from '../../constants/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { forgotPasswordRequest } from '../../services/actions/reset-password';
@@ -31,7 +31,9 @@ const ForgotPassword = () => {
 
   useEffect(() => {
     if (forgotPasswordSuccess) {
-      navigate(pathResetPasswordPage, { state: { url: '/forgot-password' } });
+      navigate(PATH_RESET_PASSWORD_PAGE, {
+        state: { url: '/forgot-password' },
+      });
     }
   }, [navigate, forgotPasswordSuccess]);
 
@@ -58,7 +60,7 @@ const ForgotPassword = () => {
       </form>
       <span className="text text_type_main-default text_color_inactive mb-4">
         Вспомнили пароль?{'\u00A0'}
-        <Link className={styles.link} to={pathLoginPage}>
+        <Link className={styles.link} to={PATH_LOGIN_PAGE}>
           Войти
         </Link>
       </span>

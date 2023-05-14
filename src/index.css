@@ -8,14 +8,16 @@
 
 @font-face {
   font-family: 'JetBrainsMono';
-  src: url('./fonts/JetBrainsMono-Bold.ttf') format('truetype'), url('./fonts/JetBrainsMono-Bold.woff') format(' woff');
+  src: url('./fonts/JetBrainsMono-Bold.ttf') format('truetype'),
+    url('./fonts/JetBrainsMono-Bold.woff') format(' woff');
   font-style: normal;
   font-weight: 700;
 }
 
 @font-face {
   font-family: 'Iceland';
-  src: url('./fonts/Iceland-Regular.ttf') format('truetype'), url('./fonts/Iceland-Regular.woff') format(' woff');
+  src: url('./fonts/Iceland-Regular.ttf') format('truetype'),
+    url('./fonts/Iceland-Regular.woff') format(' woff');
   font-style: normal;
   font-weight: 400;
 }
@@ -30,7 +32,8 @@
 
 @font-face {
   font-family: 'IBMPlexSans';
-  src: url('./fonts/IBMPlexSans-Bold.ttf') format('truetype'), url('./fonts/IBMPlexSans-Bold.woff') format(' woff');
+  src: url('./fonts/IBMPlexSans-Bold.ttf') format('truetype'),
+    url('./fonts/IBMPlexSans-Bold.woff') format(' woff');
   font-style: normal;
   font-weight: 700;
 }

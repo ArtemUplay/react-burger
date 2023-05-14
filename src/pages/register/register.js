@@ -8,9 +8,9 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './register.module.css';
 import {
-  pathConstructorPage,
-  pathLoginPage,
-  pathProfilePage,
+  PATH_CONSTRUCTOR_PAGE,
+  PATH_LOGIN_PAGE,
+  PATH_PROFILE_PAGE,
 } from '../../constants/constants';
 
 import { Link, useNavigate } from 'react-router-dom';
@@ -48,16 +48,10 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (profileUserData) {
-      navigate(pathConstructorPage);
-    }
-  }, [profileUserData]);
-
-  useEffect(() => {
     const success = isAuth;
 
     if (success) {
-      navigate(pathProfilePage);
+      navigate(PATH_PROFILE_PAGE);
     }
   }, [isAuth, navigate]);
 
@@ -99,7 +93,7 @@ const Register = () => {
       </form>
       <span className="text text_type_main-default text_color_inactive mb-4">
         Уже зарегистрированы?{'\u00A0'}
-        <Link className={styles.link} to={pathLoginPage}>
+        <Link className={styles.link} to={PATH_LOGIN_PAGE}>
           Войти
         </Link>
       </span>

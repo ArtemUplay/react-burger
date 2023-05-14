@@ -9,26 +9,20 @@ import styles from './login.module.css';
 
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  pathConstructorPage,
-  pathForgotPasswordPage,
-  pathRegisterPage,
+  PATH_CONSTRUCTOR_PAGE,
+  PATH_FORGOT_PASSWORD_PAGE,
+  PATH_REGISTER_PAGE,
 } from '../../constants/constants';
 import { sendLoginData } from '../../services/actions/login';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Login = () => {
-  const { isAuth, profileUserData } = useSelector((store) => store.profile);
+  const { isAuth } = useSelector((store) => store.profile);
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (profileUserData) {
-      navigate(pathConstructorPage);
-    }
-  }, [profileUserData]);
 
   const onEmailChange = (evt) => {
     setEmailValue(evt.target.value);
@@ -48,7 +42,7 @@ const Login = () => {
     const success = isAuth;
 
     if (success) {
-      navigate(pathConstructorPage);
+      navigate(PATH_CONSTRUCTOR_PAGE);
     }
   }, [isAuth, navigate]);
 
@@ -83,13 +77,13 @@ const Login = () => {
       </form>
       <span className="text text_type_main-default text_color_inactive mb-4">
         Вы — новый пользователь?{'\u00A0'}
-        <Link className={styles.link} to={pathRegisterPage}>
+        <Link className={styles.link} to={PATH_REGISTER_PAGE}>
           Зарегистрироваться
         </Link>
       </span>
       <span className="text text_type_main-default text_color_inactive">
         Забыли пароль?{'\u00A0'}
-        <Link className={styles.link} to={pathForgotPasswordPage}>
+        <Link className={styles.link} to={PATH_FORGOT_PASSWORD_PAGE}>
           Восстановить пароль
         </Link>
       </span>

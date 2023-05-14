@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import { useNavigate } from 'react-router-dom';
-import { pathConstructorPage } from '../../constants/constants';
+import { PATH_CONSTRUCTOR_PAGE } from '../../constants/constants';
 import { useDispatch } from 'react-redux';
 import { DELETE_CURRENT_INGREDIENT } from '../../services/actions/ingredient-details';
 
@@ -13,7 +13,7 @@ const Modal = ({ children }) => {
   const navigate = useNavigate();
 
   const onClose = () => {
-    navigate(pathConstructorPage);
+    navigate(PATH_CONSTRUCTOR_PAGE);
     dispatch({ type: DELETE_CURRENT_INGREDIENT });
   };
 

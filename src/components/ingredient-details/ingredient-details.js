@@ -7,7 +7,7 @@ import {
   SET_CURRENT_INGREDIENT,
 } from '../../services/actions/ingredient-details';
 import { useNavigate, useParams } from 'react-router-dom';
-import { pathConstructorPage } from '../../constants/constants';
+import { PATH_CONSTRUCTOR_PAGE } from '../../constants/constants';
 import { getItems } from '../../services/actions/burger-ingredients';
 
 const IngredientsDetails = () => {
@@ -44,7 +44,7 @@ const IngredientsDetails = () => {
                   type: DELETE_CURRENT_INGREDIENT,
                 });
 
-                navigate(pathConstructorPage);
+                navigate(PATH_CONSTRUCTOR_PAGE);
               }}>
               <CloseIcon type="primary" />
             </button>

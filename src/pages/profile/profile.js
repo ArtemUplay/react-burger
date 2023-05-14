@@ -2,9 +2,9 @@ import styles from './profile.module.css';
 
 import { NavLink, Route, Routes } from 'react-router-dom';
 import {
-  pathConstructorPage,
-  pathOrders,
-  pathProfilePage,
+  PATH_CONSTRUCTOR_PAGE,
+  PATH_ORDERS,
+  PATH_PROFILE_PAGE,
 } from '../../constants/constants';
 import ProfileForm from '../../components/profile-form/profile-form';
 import { logOutProfile } from '../../services/actions/profile';
@@ -26,7 +26,7 @@ const Profile = () => {
           <li
             className={`text text_type_main-medium text_color_inactive ${styles.list__item}`}>
             <NavLink
-              to={pathProfilePage}
+              to={PATH_PROFILE_PAGE}
               className={({ isActive }) =>
                 isActive ? styles.active : styles.link
               }
@@ -37,7 +37,7 @@ const Profile = () => {
           <li
             className={`text text_type_main-medium text_color_inactive ${styles.list__item}`}>
             <NavLink
-              to={pathOrders}
+              to={PATH_ORDERS}
               className={({ isActive }) =>
                 isActive ? styles.active : styles.link
               }>
@@ -48,7 +48,7 @@ const Profile = () => {
             className={`text text_type_main-medium text_color_inactive ${styles.list__item}`}>
             <NavLink
               onClick={() => logOut(refreshToken)}
-              to={pathConstructorPage}
+              to={PATH_CONSTRUCTOR_PAGE}
               className={({ isActive }) =>
                 isActive ? styles.active : styles.link
               }>
@@ -62,7 +62,7 @@ const Profile = () => {
       </div>
       <Routes>
         <Route path="/" element={<ProfileForm />} />
-        <Route path={pathOrders} element={<p>Заказы</p>} />
+        <Route path={PATH_ORDERS} element={<p>Заказы</p>} />
       </Routes>
     </div>
   );

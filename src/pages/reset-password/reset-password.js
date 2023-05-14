@@ -7,8 +7,8 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './reset-password.module.css';
 import {
-  pathForgotPasswordPage,
-  pathLoginPage,
+  PATH_FORGOT_PASSWORD_PAGE,
+  PATH_LOGIN_PAGE,
 } from '../../constants/constants';
 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -36,7 +36,7 @@ const ResetPassword = () => {
 
   useEffect(() => {
     if (!forgotPasswordSuccess || location.state === '/forgot-password') {
-      navigate(pathForgotPasswordPage);
+      navigate(PATH_FORGOT_PASSWORD_PAGE);
     }
   }, []);
 
@@ -46,7 +46,7 @@ const ResetPassword = () => {
     dispatch(resetPasswordRequest(passwordValue, codeValue));
 
     if (resetPasswordSuccess) {
-      navigate(pathLoginPage);
+      navigate(PATH_LOGIN_PAGE);
     }
   };
 
@@ -81,7 +81,7 @@ const ResetPassword = () => {
       </form>
       <span className="text text_type_main-default text_color_inactive mb-4">
         Вспомнили пароль?{'\u00A0'}
-        <Link className={styles.link} to={pathLoginPage}>
+        <Link className={styles.link} to={PATH_LOGIN_PAGE}>
           Войти
         </Link>
       </span>

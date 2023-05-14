@@ -5,8 +5,8 @@ import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import { Link, NavLink } from 'react-router-dom';
 import styles from './app-header.module.css';
 import {
-  pathConstructorPage,
-  pathProfilePage,
+  PATH_CONSTRUCTOR_PAGE,
+  PATH_PROFILE_PAGE,
 } from '../../constants/constants';
 
 const AppHeader = () => {
@@ -17,7 +17,7 @@ const AppHeader = () => {
           <ul className={styles.list}>
             <li className={`${styles.list__item} pl-2 pr-5 pb-4 pt-4 mr-2`}>
               <NavLink
-                to={pathConstructorPage}
+                to={PATH_CONSTRUCTOR_PAGE}
                 className={({ isActive }) =>
                   isActive
                     ? `${styles.link} ${styles.link_active}`
@@ -41,7 +41,7 @@ const AppHeader = () => {
             <Logo />
           </Link>
           <NavLink
-            to={pathProfilePage}
+            to={PATH_PROFILE_PAGE}
             className={({ isActive }) =>
               isActive
                 ? `pl-5 pr-4 pb-4 pt-5

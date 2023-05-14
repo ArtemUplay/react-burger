@@ -7,13 +7,18 @@ import OrderDetails from '../order-details/order-details';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIngredientToConstructor } from '../../services/actions/burger-constructor';
-import { DELETE_ORDER_NUMBER, GET_ORDER_NUMBER } from '../../services/actions/order-details';
+import {
+  DELETE_ORDER_NUMBER,
+  GET_ORDER_NUMBER,
+} from '../../services/actions/order-details';
 import { useDrop } from 'react-dnd';
 import { URL } from '../../constants/constants';
 import { postOrder } from '../../api/api';
 
 const BurgerConstructor = () => {
-  const burgerConstructorIngredients = useSelector((store) => store.burgerConstructor.burgerConstructorIngredients);
+  const burgerConstructorIngredients = useSelector(
+    (store) => store.burgerConstructor.burgerConstructorIngredients
+  );
   const items = useSelector((store) => store.burgerIngredients.items);
   const orderNumber = useSelector((store) => store.orderDetails.order.number);
 
@@ -23,7 +28,10 @@ const BurgerConstructor = () => {
   const [{ isOver }, dropRef] = useDrop({
     accept: 'ingredient',
     drop: ({ ingredientId, ingredientType }) => {
-      if (burgerConstructorIngredients.length === 0 && ingredientType !== 'bun') {
+      if (
+        burgerConstructorIngredients.length === 0 &&
+        ingredientType !== 'bun'
+      ) {
         return;
       }
 
@@ -45,7 +53,7 @@ const BurgerConstructor = () => {
   }, [burgerConstructorIngredients]);
 
   function onClickSubmitButton() {
-    postOrder(URL, burgerConstructorIngredients, dispatch, GET_ORDER_NUMBER);
+    postOrder(burgerConstructorIngredients, dispatch, GET_ORDER_NUMBER);
   }
 
   return (
@@ -72,7 +80,13 @@ const BurgerConstructor = () => {
             {burgerConstructorIngredients
               .filter((item) => item.type !== 'bun')
               .map((item) => {
-                return <BurgerConstructorItem key={item.uniqueId + item._id} uniqueId={item.uniqueId} item={item} />;
+                return (
+                  <BurgerConstructorItem
+                    key={item.uniqueId + item._id}
+                    uniqueId={item.uniqueId}
+                    item={item}
+                  />
+                );
               })}
           </ul>
           <div key={2} className={`mt-4 mr-4 ${styles['item-wrapper']}`}>
@@ -89,10 +103,14 @@ const BurgerConstructor = () => {
         </div>
         <div className={`mt-10 ${styles['submit-order-wrapper']}`}>
           <div className={`${styles['wrapper-total-price']}`}>
-            <span className={styles['total-price']}>{totalPrice ? totalPrice : 0}</span>
+            <span className={styles['total-price']}>
+              {totalPrice ? totalPrice : 0}
+            </span>
             <CurrencyIcon />
           </div>
-          <button className={`pt-5 pb-5 pr-10 pl-10 ${styles['submit-order']}`} onClick={onClickSubmitButton}>
+          <button
+            className={`pt-5 pb-5 pr-10 pl-10 ${styles['submit-order']}`}
+            onClick={onClickSubmitButton}>
             Оформить заказ
           </button>
         </div>
