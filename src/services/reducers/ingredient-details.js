@@ -1,4 +1,7 @@
-import { SET_CURRENT_INGREDIENT, DELETE_CURRENT_INGREDIENT } from '../actions/ingredient-details';
+import {
+  SET_CURRENT_INGREDIENT,
+  DELETE_CURRENT_INGREDIENT,
+} from '../actions/ingredient-details';
 
 const initialState = {
   currentIngredient: null,

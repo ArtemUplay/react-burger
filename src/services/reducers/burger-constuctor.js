@@ -11,9 +11,9 @@ const initialState = {
 export const BurgerConstructorReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_CONSTRUCTOR_BUN: {
-      const newBurgerConstructorIngredients = [...state.burgerConstructorIngredients].filter(
-        (item) => item.type !== 'bun'
-      );
+      const newBurgerConstructorIngredients = [
+        ...state.burgerConstructorIngredients,
+      ].filter((item) => item.type !== 'bun');
       newBurgerConstructorIngredients.unshift(action.ingredient);
 
       return {
@@ -22,8 +22,14 @@ export const BurgerConstructorReducer = (state = initialState, action) => {
       };
     }
     case SET_CONSTRUCTOR_INGRIDIENT: {
-      const newBurgerConstructorIngredients = [...state.burgerConstructorIngredients];
-      newBurgerConstructorIngredients.splice(action.indexArray, 0, action.ingredient);
+      const newBurgerConstructorIngredients = [
+        ...state.burgerConstructorIngredients,
+      ];
+      newBurgerConstructorIngredients.splice(
+        action.indexArray,
+        0,
+        action.ingredient
+      );
 
       return {
         ...state,
@@ -31,7 +37,9 @@ export const BurgerConstructorReducer = (state = initialState, action) => {
       };
     }
     case DELETE_CONSTRUCTOR_INGREDIENT: {
-      const newBurgerConstructorIngredients = [...state.burgerConstructorIngredients].filter((item) => {
+      const newBurgerConstructorIngredients = [
+        ...state.burgerConstructorIngredients,
+      ].filter((item) => {
         return item.uniqueId !== action.ingredientIndex;
       });
 

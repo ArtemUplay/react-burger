@@ -1,4 +1,6 @@
 .header {
+  position: relative;
+  z-index: 100;
   width: 100%;
   background-color: #1c1c21;
 }
@@ -31,7 +33,7 @@
 .link {
   font-family: 'JetBrainsMono', Arial, 'Helvetica Neue', Helvetica, sans-serif;
   display: block;
-  color: #f2f2f3;
+  color: #8585ad;
   font-size: 16px;
   line-height: 24px;
   display: flex;
@@ -48,9 +50,17 @@
 .link_disabled {
   pointer-events: none;
   cursor: default;
-  color: #8585ad;
 }
 
-.link_disabled > svg {
+.link > svg {
   fill: #8585ad;
+}
+
+.link_active > svg {
+  fill: #f2f2f3;
+}
+
+.link_active {
+  text-decoration: none;
+  color: #f2f2f3;
 }

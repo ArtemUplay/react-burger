@@ -24,7 +24,9 @@ export const checkResponse = (response) => {
 export const collectIngredientsInArray = (burgerConstructorIngredients) => {
   const ingredients = [];
 
-  const bunItem = burgerConstructorIngredients.find((item) => item.type === 'bun');
+  const bunItem = burgerConstructorIngredients.find(
+    (item) => item.type === 'bun'
+  );
 
   ingredients.push(bunItem._id);
   ingredients.push(
@@ -38,3 +40,41 @@ export const collectIngredientsInArray = (burgerConstructorIngredients) => {
 
   return ingredients;
 };
+
+export function setCookie(name, value, props) {
+  props = props || {};
+  let exp = props.expires;
+  if (typeof exp == 'number' && exp) {
+    const d = new Date();
+    d.setTime(d.getTime() + exp * 1000);
+    exp = props.expires = d;
+  }
+  if (exp && exp.toUTCString) {
+    props.expires = exp.toUTCString();
+  }
+  value = encodeURIComponent(value);
+  let updatedCookie = name + '=' + value;
+  for (const propName in props) {
+    updatedCookie += '; ' + propName;
+    const propValue = props[propName];
+    if (propValue !== true) {
+      updatedCookie += '=' + propValue;
+    }
+  }
+  document.cookie = updatedCookie;
+}
+
+export function getCookie(name) {
+  let matches = document.cookie.match(
+    new RegExp(
+      '(?:^|; )' +
+        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') +
+        '=([^;]*)'
+    )
+  );
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+export function deleteCookie(name) {
+  setCookie(name, null, { expires: -1 });
+}

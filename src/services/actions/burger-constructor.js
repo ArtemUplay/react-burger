@@ -7,7 +7,9 @@ export const setIngredientToConstructor =
   (ingredientId, items, indexArray = 1) =>
   (dispatch) => {
     const uniqueId = uuidv4();
-    const findedIngredient = items.find((ingredient) => ingredient._id === ingredientId);
+    const findedIngredient = items.find(
+      (ingredient) => ingredient._id === ingredientId
+    );
     const ingredient = { ...findedIngredient, uniqueId };
 
     if (ingredient.type === 'bun') {

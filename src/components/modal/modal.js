@@ -3,8 +3,20 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ModalOverlay from '../modal-overlay/modal-overlay';
+import { useNavigate } from 'react-router-dom';
+import { pathConstructorPage } from '../../constants/constants';
+import { useDispatch } from 'react-redux';
+import { DELETE_CURRENT_INGREDIENT } from '../../services/actions/ingredient-details';
 
-const Modal = ({ onClose, children }) => {
+const Modal = ({ children }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onClose = () => {
+    navigate(pathConstructorPage);
+    dispatch({ type: DELETE_CURRENT_INGREDIENT });
+  };
+
   React.useEffect(() => {
     document.addEventListener('keydown', keyEscHandler);
     return () => document.removeEventListener('keydown', keyEscHandler);
@@ -18,7 +30,9 @@ const Modal = ({ onClose, children }) => {
 
   return ReactDOM.createPortal(
     <div className={styles.modals}>
-      <div className={`${styles.modal}`} onClick={(evt) => evt.stopPropagation()}>
+      <div
+        className={`${styles.modal}`}
+        onClick={(evt) => evt.stopPropagation()}>
         {children}
       </div>
       <ModalOverlay onClose={onClose} />
@@ -28,7 +42,6 @@ const Modal = ({ onClose, children }) => {
 };
 
 Modal.propTypes = {
-  onClose: PropTypes.func.isRequired,
   children: PropTypes.element,
 };
 

@@ -1,4 +1,11 @@
-export const URL = 'https://norma.nomoreparties.space/api/orders';
+export const URL = 'https://norma.nomoreparties.space/api';
 export const BUN = 'bun';
 export const SAUCE = 'sauce';
 export const MAIN = 'main';
+export const pathConstructorPage = '/';
+export const pathLoginPage = '/login';
+export const pathRegisterPage = '/register';
+export const pathForgotPasswordPage = '/forgot-password';
+export const pathResetPasswordPage = '/reset-password';
+export const pathProfilePage = '/profile';
+export const pathOrders = 'orders';

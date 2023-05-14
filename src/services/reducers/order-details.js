@@ -1,4 +1,7 @@
-import { GET_ORDER_NUMBER, DELETE_ORDER_NUMBER } from '../actions/order-details';
+import {
+  GET_ORDER_NUMBER,
+  DELETE_ORDER_NUMBER,
+} from '../actions/order-details';
 
 const initialState = {
   order: {

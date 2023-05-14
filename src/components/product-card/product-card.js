@@ -3,23 +3,24 @@ import styles from './product-card.module.css';
 import PropTypes from 'prop-types';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ingredientsPropTypes } from '../utils/utils';
-import Modal from '../modal/modal';
-import IngredientsDetails from '../ingredient-details/ingredient-details';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
-import { DELETE_CURRENT_INGREDIENT, SET_CURRENT_INGREDIENT } from '../../services/actions/ingredient-details';
+import { SET_CURRENT_INGREDIENT } from '../../services/actions/ingredient-details';
+import { Link } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
-  const burgerConstructorIngredients = useSelector((store) => store.burgerConstructor.burgerConstructorIngredients);
-  const currentIngredient = useSelector((store) => store.ingredientDetails.currentIngredient);
+  const burgerConstructorIngredients = useSelector(
+    (store) => store.burgerConstructor.burgerConstructorIngredients
+  );
   const ingredientId = product._id;
+  const ingredientType = product.type;
 
   const dispatch = useDispatch();
 
   const [{ isDragging }, dragRef] = useDrag({
     type: 'ingredient',
-    item: { ingredientId },
+    item: { ingredientId, ingredientType },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -50,27 +51,20 @@ const ProductCard = ({ product }) => {
         }}
         ref={dragRef}
         style={{ backgroundColor: isDragging ? '#24247c' : '' }}>
-        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-        <a className={`${styles.link}`} href="#">
-          <img className={`mb-1 ml-4 mr-4 ${styles.image}`} src={product.image} alt={product.name} />
+        <Link className={`${styles.link}`} to={`ingredients/${ingredientId}`}>
+          <img
+            className={`mb-1 ml-4 mr-4 ${styles.image}`}
+            src={product.image}
+            alt={product.name}
+          />
           <div className={`mb-1 ${styles['price-wrapper']}`}>
             <span className={`mr-2 ${styles.price}`}>{product.price}</span>
             <CurrencyIcon />
           </div>
           <h3 className={styles.name}>{product.name}</h3>
-        </a>
+        </Link>
         <Counter count={countIngredient} size="default" />
       </li>
-      {currentIngredient && (
-        <Modal
-          onClose={() => {
-            dispatch({
-              type: DELETE_CURRENT_INGREDIENT,
-            });
-          }}>
-          <IngredientsDetails />
-        </Modal>
-      )}
     </>
   );
 };

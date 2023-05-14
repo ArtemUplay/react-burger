@@ -2,7 +2,12 @@ import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Link, NavLink } from 'react-router-dom';
 import styles from './app-header.module.css';
+import {
+  pathConstructorPage,
+  pathProfilePage,
+} from '../../constants/constants';
 
 const AppHeader = () => {
   return (
@@ -10,35 +15,43 @@ const AppHeader = () => {
       <div className={styles.header__container}>
         <nav className={styles.nav}>
           <ul className={styles.list}>
-            <li className={styles.list__item}>
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid*/}
-              <a href="#" className={`pl-2 pr-5 pb-4 pt-4 mr-2 ${`${styles.link}`}`}>
+            <li className={`${styles.list__item} pl-2 pr-5 pb-4 pt-4 mr-2`}>
+              <NavLink
+                to={pathConstructorPage}
+                className={({ isActive }) =>
+                  isActive
+                    ? `${styles.link} ${styles.link_active}`
+                    : styles.link
+                }
+                end>
                 <BurgerIcon type="primary" fill={'#8585AD'} />
                 <span className="ml-2">Конструктор</span>
-              </a>
+              </NavLink>
             </li>
             <li className="list__item">
-              {/* Линтер отключен у следующей ссылки, так как на данном стадии проекта у нас нет контента, куда будет вести эта ссылка */}
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <a href="#" className={`pl-5 pr-5 pb-4 pt-4 ${`${styles.link} ${styles.link_disabled}`}`}>
+              <Link
+                to={''}
+                className={`pl-5 pr-5 pb-4 pt-4 ${`${styles.link} ${styles.link_disabled}`}`}>
                 <ListIcon type="primary" />
                 <span className="ml-2">Лента заказов</span>
-              </a>
+              </Link>
             </li>
           </ul>
-          {/* Линтер отключен у следующей ссылки, так как на данном стадии проекта у нас нет контента, куда будет вести эта ссылка */}
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a className={styles['logo-link']} href="#">
+          <Link to="/" className={styles['logo-link']}>
             <Logo />
-          </a>
-          {/* Линтер отключен у следующей ссылки, так как на данном стадии проекта у нас нет контента, куда будет вести эта ссылка */}
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a
-            href="#"
-            className={`pl-5 pr-4 pb-4 pt-5 ${`${styles.link} ${styles.link_disabled}`} ${styles['personal-account']}`}>
+          </Link>
+          <NavLink
+            to={pathProfilePage}
+            className={({ isActive }) =>
+              isActive
+                ? `pl-5 pr-4 pb-4 pt-5
+                ${styles['personal-account']} ${styles.link} ${styles.link_active}`
+                : `pl-5 pr-4 pb-4 pt-5
+                ${styles['personal-account']} ${styles.link}`
+            }>
             <ProfileIcon type="primary" />
             <span className="ml-2">Личный кабинет</span>
-          </a>
+          </NavLink>
         </nav>
       </div>
     </header>

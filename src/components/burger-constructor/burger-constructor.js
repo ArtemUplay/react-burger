@@ -4,14 +4,13 @@ import BurgerConstructorItem from '../burger-constructor-item/burger-constructor
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { collectIngredientsInArray } from '../utils/utils';
-import { checkResponse } from '../utils/utils';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIngredientToConstructor } from '../../services/actions/burger-constructor';
 import { DELETE_ORDER_NUMBER, GET_ORDER_NUMBER } from '../../services/actions/order-details';
 import { useDrop } from 'react-dnd';
 import { URL } from '../../constants/constants';
+import { postOrder } from '../../api/api';
 
 const BurgerConstructor = () => {
   const burgerConstructorIngredients = useSelector((store) => store.burgerConstructor.burgerConstructorIngredients);
@@ -23,7 +22,11 @@ const BurgerConstructor = () => {
 
   const [{ isOver }, dropRef] = useDrop({
     accept: 'ingredient',
-    drop: ({ ingredientId }) => {
+    drop: ({ ingredientId, ingredientType }) => {
+      if (burgerConstructorIngredients.length === 0 && ingredientType !== 'bun') {
+        return;
+      }
+
       dispatch(setIngredientToConstructor(ingredientId, items));
     },
     collect: (monitor) => ({
@@ -41,27 +44,8 @@ const BurgerConstructor = () => {
     }, 0);
   }, [burgerConstructorIngredients]);
 
-  async function postOrder() {
-    const response = await fetch(URL, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        ingredients: [...collectIngredientsInArray(burgerConstructorIngredients)],
-      }),
-    });
-
-    const data = await checkResponse(response);
-
-    dispatch({
-      type: GET_ORDER_NUMBER,
-      number: data.order.number,
-    });
-  }
-
   function onClickSubmitButton() {
-    postOrder();
+    postOrder(URL, burgerConstructorIngredients, dispatch, GET_ORDER_NUMBER);
   }
 
   return (
