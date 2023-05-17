@@ -17,3 +17,14 @@
   max-width: 720px;
   background-color: #1c1c21;
 }
+
+.close-button {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  position: absolute;
+  top: 50px;
+  right: 40px;
+  cursor: pointer;
+}

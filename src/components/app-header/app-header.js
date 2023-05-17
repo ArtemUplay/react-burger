@@ -6,6 +6,7 @@ import { Link, NavLink } from 'react-router-dom';
 import styles from './app-header.module.css';
 import {
   PATH_CONSTRUCTOR_PAGE,
+  PATH_FEED,
   PATH_PROFILE_PAGE,
 } from '../../constants/constants';
 
@@ -28,13 +29,17 @@ const AppHeader = () => {
                 <span className="ml-2">Конструктор</span>
               </NavLink>
             </li>
-            <li className="list__item">
-              <Link
-                to={''}
-                className={`pl-5 pr-5 pb-4 pt-4 ${`${styles.link} ${styles.link_disabled}`}`}>
+            <li className="list__item pl-2 pr-5 pb-4 pt-4 mr-2">
+              <NavLink
+                to={PATH_FEED}
+                className={({ isActive }) =>
+                  isActive
+                    ? `${styles.link} ${styles.link_active}`
+                    : styles.link
+                }>
                 <ListIcon type="primary" />
                 <span className="ml-2">Лента заказов</span>
-              </Link>
+              </NavLink>
             </li>
           </ul>
           <Link to="/" className={styles['logo-link']}>

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import {
   PATH_LOGIN_PAGE,
   PATH_CONSTRUCTOR_PAGE,
@@ -10,6 +10,9 @@ import {
   PATH_RESET_PASSWORD_PAGE,
   PATH_PROFILE_PAGE,
   PATH_PROFILE_PAGE_ROUTES,
+  PATH_INGREDIENTS_ID,
+  PATH_FEED,
+  PATH_FEED_ID,
 } from '../../constants/constants';
 import Home from '../../pages/home/home';
 import Login from '../../pages/login/login';
@@ -24,6 +27,9 @@ import { getCookie } from '../utils/utils';
 import IngredientsDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import ProtectedRouteAuthorization from '../protected-route-authorization/protected-route-authorization';
+import Feed from '../../pages/feed/feed';
+import FeedItemInfo from '../feed-item-info/feed-item-details';
+import { DELETE_CURRENT_INGREDIENT } from '../../services/actions/ingredient-details';
 
 const App = () => {
   const { accessToken } = useSelector((store) => store.profile);
@@ -66,10 +72,24 @@ const App = () => {
               element={<ProtectedRouteProfile element={<Profile />} />}
             />
             <Route
-              path="ingredients/:id"
+              path={PATH_INGREDIENTS_ID}
+              element={
+                <Modal
+                  onClose={() => {
+                    dispatch({
+                      type: DELETE_CURRENT_INGREDIENT,
+                    });
+                  }}>
+                  <IngredientsDetails />
+                </Modal>
+              }
+            />
+            <Route path={PATH_FEED} element={<Feed />} />
+            <Route
+              path={PATH_FEED_ID}
               element={
                 <Modal>
-                  <IngredientsDetails />
+                  <FeedItemInfo />
                 </Modal>
               }
             />

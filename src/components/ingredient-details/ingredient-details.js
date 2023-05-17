@@ -23,7 +23,6 @@ const IngredientsDetails = () => {
     }
   }, [dispatch]);
 
-  const navigate = useNavigate();
   const { id } = useParams();
   const currentItem = items.find((item) => item._id === id);
 
@@ -37,7 +36,7 @@ const IngredientsDetails = () => {
         <div className={`${styles.wrapper}`}>
           <div className={`pt-10 pl-10 pr-10 ${styles.top}`}>
             <h2 className={` ${styles.title}`}>Детали ингредиента</h2>
-            <button
+            {/* <button
               className={`${styles.button}`}
               onClick={() => {
                 dispatch({
@@ -47,7 +46,7 @@ const IngredientsDetails = () => {
                 navigate(PATH_CONSTRUCTOR_PAGE);
               }}>
               <CloseIcon type="primary" />
-            </button>
+            </button> */}
           </div>
           <img
             className={`${styles.image}`}
