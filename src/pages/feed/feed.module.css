@@ -43,6 +43,10 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
 }
 
 .orders-number__list-item_ready {

@@ -27,4 +27,5 @@
   top: 50px;
   right: 40px;
   cursor: pointer;
+  z-index: 100;
 }

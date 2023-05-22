@@ -7,6 +7,42 @@ import { applyMiddleware, createStore, compose } from 'redux';
 import { rootReducer } from './services/reducers';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { BrowserRouter } from 'react-router-dom';
+import { socketMiddleware } from './services/actions/web-socket';
+
+import {
+  WS_FEED_CONNECTION_START,
+  WS_FEED_CONNECTION_SUCCESS,
+  WS_FEED_CONNECTION_CLOSED,
+  WS_FEED_CONNECTION_ERROR,
+  WS_FEED_CONNECTION_MESSAGE,
+} from './services/actions/feed';
+import {
+  WS_ORDERS_HISTORY_CONNECTION_START,
+  WS_ORDERS_HISTORY_CONNECTION_SUCCESS,
+  WS_ORDERS_HISTORY_CONNECTION_CLOSED,
+  WS_ORDERS_HISTORY_CONNECTION_ERROR,
+  WS_ORDERS_HISTORY_CONNECTION_MESSAGE,
+} from './services/actions/orders-history';
+
+const wsFeedActions = {
+  wsInit: WS_FEED_CONNECTION_START,
+  onOpen: WS_FEED_CONNECTION_SUCCESS,
+  onClose: WS_FEED_CONNECTION_CLOSED,
+  onError: WS_FEED_CONNECTION_ERROR,
+  onMessage: WS_FEED_CONNECTION_MESSAGE,
+};
+
+const wsOrdersHistoryActions = {
+  wsInit: WS_ORDERS_HISTORY_CONNECTION_START,
+  onOpen: WS_ORDERS_HISTORY_CONNECTION_SUCCESS,
+  onClose: WS_ORDERS_HISTORY_CONNECTION_CLOSED,
+  onError: WS_ORDERS_HISTORY_CONNECTION_ERROR,
+  onMessage: WS_ORDERS_HISTORY_CONNECTION_MESSAGE,
+};
+
+const wsFeedUrl = 'wss://norma.nomoreparties.space/orders/all';
+const wsOrdersHistoryUrl = 'wss://norma.nomoreparties.space/orders';
 
 declare global {
   interface Window {
@@ -19,7 +55,11 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({} as Function)
     : compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const enhancer = composeEnhancers(
+  applyMiddleware(thunk),
+  applyMiddleware(socketMiddleware(wsFeedUrl, wsFeedActions)),
+  applyMiddleware(socketMiddleware(wsOrdersHistoryUrl, wsOrdersHistoryActions))
+);
 
 const store = createStore(rootReducer, enhancer);
 
@@ -29,7 +69,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );

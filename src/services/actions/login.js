@@ -1,4 +1,8 @@
-import { checkResponse, setCookie } from '../../components/utils/utils';
+import {
+  checkResponse,
+  removeBearer,
+  setCookie,
+} from '../../components/utils/utils';
 import { URL } from '../../constants/constants';
 
 export const POST_LOGIN_DATA_REQUEST = 'POST_LOGIN_DATA_REQUEST';
@@ -25,10 +29,10 @@ export function sendLoginData(formData) {
       .then((responseData) => {
         const refreshToken = responseData.refreshToken;
 
-        setCookie('refreshToken', refreshToken);
+        localStorage.setItem('refreshToken', refreshToken);
         dispatch({
           type: POST_LOGIN_DATA_SUCCESS,
-          accessToken: responseData.accessToken,
+          accessToken: removeBearer(responseData.accessToken),
           success: responseData.success,
         });
       })

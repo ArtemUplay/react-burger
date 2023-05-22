@@ -19,10 +19,6 @@ const BurgerIngredients = () => {
   const mainTitle = useRef(null);
 
   useEffect(() => {
-    dispatch(getItems());
-  }, [dispatch]);
-
-  useEffect(() => {
     cardsList.current.addEventListener('scroll', () => {
       const bunTitlePosition = bunTitle.current.getBoundingClientRect();
       const sausesTitlePosition = sausesTitle.current.getBoundingClientRect();

@@ -11,14 +11,13 @@ import {
   patchProfileData,
 } from '../../services/actions/profile';
 import styles from './profile-form.module.css';
-import { getCookie } from '../utils/utils';
 
 const ProfileForm = () => {
   const { profileUserData, accessToken } = useSelector(
     (store) => store.profile
   );
   const dispatch = useDispatch();
-  const refreshToken = getCookie('refreshToken');
+  const refreshToken = localStorage.getItem('refreshToken');
 
   const [userNameValue, setUserNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');

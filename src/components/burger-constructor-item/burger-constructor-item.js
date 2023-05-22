@@ -76,15 +76,4 @@ BurgerConstructorItem.propTypes = {
   uniqueId: PropTypes.string.isRequired,
 };
 
-// BurgerConstructorItem.propTypes = {
-//   item: PropTypes.shape({
-//     _id: PropTypes.string.isRequired,
-//     name: PropTypes.string.isRequired,
-//     price: PropTypes.number.isRequired,
-//     image: PropTypes.string.isRequired,
-//     uniqueId: PropTypes.string.isRequired,
-//   }).isRequired,
-//   uniqueId: PropTypes.string.isRequired,
-// };
-
 export default BurgerConstructorItem;

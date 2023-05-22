@@ -1,7 +1,8 @@
 .wrapper {
+  align-self: flex-start;
   display: grid;
   margin-top: 120px;
-  grid-template-columns: 320px 480px;
+  grid-template-columns: 320px 1fr;
   column-gap: 60px;
 }
 
