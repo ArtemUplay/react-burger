@@ -1,4 +1,8 @@
-.wrapper {}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .top {
   display: flex;
@@ -11,10 +15,10 @@
   font-weight: 700;
   font-size: 36px;
   line-height: 40px;
-  color: #F2F2F3;
+  color: #f2f2f3;
   margin-top: 0;
   margin-bottom: 0;
-  font-family: 'JetBrainsMono', Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: 'JetBrainsMono', Arial, 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 .button {
@@ -45,8 +49,8 @@
   font-weight: 700;
   font-size: 24px;
   line-height: 30px;
-  color: #F2F2F3;
-  font-family: 'JetBrainsMono', Arial, "Helvetica Neue", Helvetica, sans-serif;
+  color: #f2f2f3;
+  font-family: 'JetBrainsMono', Arial, 'Helvetica Neue', Helvetica, sans-serif;
   text-align: center;
 }
 
@@ -70,14 +74,14 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: #8585AD;
-  font-family: 'JetBrainsMono', Arial, "Helvetica Neue", Helvetica, sans-serif;
+  color: #8585ad;
+  font-family: 'JetBrainsMono', Arial, 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 .column-value {
   font-weight: 400;
   font-size: 28px;
   line-height: 24px;
-  font-family: 'Iceland', Arial, "Helvetica Neue", Helvetica, sans-serif;
-  color: #8585AD;
+  font-family: 'Iceland', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+  color: #8585ad;
 }

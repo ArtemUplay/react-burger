@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 import styles from './profile.module.css';
 
 import {
@@ -19,75 +21,36 @@ import { useDispatch } from 'react-redux';
 import OrdersHistory from '../../components/orders-history/orders-history';
 import Modal from '../../components/modal/modal';
 import OrderItemHistoryDetails from '../../components/order-item-history-details/order-item-history-details';
+import ProfileNavigationMenu from '../../components/profile-navigation-menu/profile-navigation-menu';
 
 const Profile = () => {
   const location = useLocation();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const refreshToken = localStorage.getItem('refreshToken');
-
-  const logOut = (refreshToken) => {
-    dispatch(logOutProfile(refreshToken));
-  };
+  const state = location?.state;
 
   return (
-    <div className={styles.wrapper}>
-      <div>
-        <ul className={styles.list}>
-          <li
-            className={`text text_type_main-medium text_color_inactive ${styles.list__item}`}>
-            <NavLink
-              to={PATH_PROFILE_PAGE}
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.link
-              }
-              end>
-              Профиль
-            </NavLink>
-          </li>
-          <li
-            className={`text text_type_main-medium text_color_inactive ${styles.list__item}`}>
-            <NavLink
-              to={PATH_ORDERS}
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.link
-              }>
-              История заказов
-            </NavLink>
-          </li>
-          <li
-            className={`text text_type_main-medium text_color_inactive ${styles.list__item}`}>
-            <NavLink
-              onClick={() => logOut(refreshToken)}
-              to={PATH_LOGIN_PAGE}
-              className={({ isActive }) =>
-                isActive ? styles.active : styles.link
-              }>
-              Выход
-            </NavLink>
-          </li>
-        </ul>
-        <p className={`text text_type_main-default ${styles.text}`}>
-          {location.pathname === PATH_PROFILE_PAGE
-            ? 'В этом разделе вы можете изменить свои персональные данные'
-            : 'В этом разделе вы можете просмотреть свою историю заказов'}
-        </p>
-      </div>
-      <Routes>
+    <div className={`${styles.wrapper}`}>
+      <Routes location={state?.backgroundOrdersHistoryLocation || location}>
         <Route path="/" element={<ProfileForm />} />
         <Route path={PATH_ORDERS} element={<OrdersHistory />} />
-        <Route
-          path={PATH_ORDERS_ID}
-          element={
-            <Modal
-              onClose={() => {
-                navigate(PATH_ORDERS);
-              }}>
-              <OrderItemHistoryDetails />
-            </Modal>
-          }
-        />
+        <Route path={PATH_ORDERS_ID} element={<OrderItemHistoryDetails />} />
       </Routes>
+
+      {state?.backgroundOrdersHistoryLocation && (
+        <Routes>
+          <Route
+            path={PATH_ORDERS_ID}
+            element={
+              <Modal
+                onClose={() => {
+                  navigate(PATH_ORDERS);
+                }}>
+                <OrderItemHistoryDetails />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 };

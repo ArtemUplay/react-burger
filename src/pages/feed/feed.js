@@ -1,11 +1,32 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
 import OrderItem from '../../components/order-item/order-item';
 import { PATH_FEED } from '../../constants/constants';
 import styles from './feed.module.css';
+import {
+  WS_FEED_CONNECTION_CLOSED,
+  WS_FEED_CONNECTION_START,
+} from '../../services/actions/feed';
+import { useLocation } from 'react-router-dom';
 
 const Feed = () => {
   const orders = useSelector((store) => store.feed.messages);
   const data = orders.length > 0 ? orders[orders.length - 1].orders : null;
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const linkState = { backgroundFeedLocation: location };
+  useEffect(() => {
+    dispatch({
+      type: WS_FEED_CONNECTION_START,
+    });
+
+    return () => {
+      dispatch({
+        type: WS_FEED_CONNECTION_CLOSED,
+      });
+    };
+  }, [dispatch]);
 
   return (
     orders.length > 0 && (
@@ -19,11 +40,8 @@ const Feed = () => {
                   <OrderItem
                     key={item._id}
                     path={`${PATH_FEED}/${item._id}`}
-                    name={item.name}
-                    number={item.number}
-                    ingredients={item.ingredients}
-                    date={item.createdAt}
                     item={item}
+                    linkState={linkState}
                   />
                 );
               })}

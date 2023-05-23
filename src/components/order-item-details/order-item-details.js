@@ -15,7 +15,9 @@ const OrderItemDetails = ({ orders }) => {
   const { id } = useParams();
 
   const data = orders.length > 0 ? orders[orders.length - 1].orders : null;
-  const currentItem = data?.find((item) => item._id === id);
+  const currentItem = data?.find((item) => {
+    return item._id === id;
+  });
 
   const orderIngredientsMap = {};
   currentOrder?.ingredients.forEach((ingredient) => {

@@ -7,7 +7,7 @@ import styles from './order-item.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_CURRENT_ORDER_DETAILS } from '../../services/actions/order-item-details';
 
-const OrderItem = ({ path, item }) => {
+const OrderItem = ({ path, item, linkState }) => {
   const items = useSelector((store) => store.burgerIngredients.items);
   const { name, number, ingredients, createdAt, status } = item;
   const dispatch = useDispatch();
@@ -62,7 +62,11 @@ const OrderItem = ({ path, item }) => {
   return (
     uniqueOrderIngredients.length > 0 && (
       <li className={`${styles.item} p-6`}>
-        <Link to={path} className={styles.item__link} onClick={onItemClick}>
+        <Link
+          to={path}
+          className={styles.item__link}
+          onClick={onItemClick}
+          state={linkState}>
           <div className={styles.item__top}>
             <span className="text text_type_digits-default">#{number}</span>
             <span className="text text_type_main-default text_color_inactive">

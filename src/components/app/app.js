@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import {
   PATH_LOGIN_PAGE,
   PATH_CONSTRUCTOR_PAGE,
@@ -29,10 +29,6 @@ import Feed from '../../pages/feed/feed';
 import { DELETE_CURRENT_INGREDIENT } from '../../services/actions/ingredient-details';
 import { getItems } from '../../services/actions/burger-ingredients';
 import { DELETE_CURRENT_ORDER_DETAILS } from '../../services/actions/order-item-details';
-import {
-  WS_FEED_CONNECTION_CLOSED,
-  WS_FEED_CONNECTION_START,
-} from '../../services/actions/feed';
 import OrderItemFeedDetails from '../order-item-feed-details/order-item-feed-details';
 
 const App = () => {
@@ -40,6 +36,10 @@ const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const refreshToken = localStorage.getItem('refreshToken');
+  const location = useLocation();
+  const state = location.state;
+
+  console.log(state);
 
   useEffect(() => {
     dispatch(getItems());
@@ -53,23 +53,16 @@ const App = () => {
     }
   }, [accessToken]);
 
-  useEffect(() => {
-    dispatch({
-      type: WS_FEED_CONNECTION_START,
-    });
-
-    return () => {
-      dispatch({
-        type: WS_FEED_CONNECTION_CLOSED,
-      });
-    };
-  }, [dispatch]);
-
   return (
     <>
       <AppHeader />
       <main className={styles.main}>
-        <Routes>
+        <Routes
+          location={
+            state?.backgroundFeedLocation ||
+            state?.backgroundIngredientsDetailsLocation ||
+            location
+          }>
           <Route path={PATH_CONSTRUCTOR_PAGE} element={<Home />} />
           <Route
             path={PATH_LOGIN_PAGE}
@@ -88,36 +81,46 @@ const App = () => {
             path={PATH_PROFILE_PAGE_ROUTES}
             element={<ProtectedRouteProfile element={<Profile />} />}
           />
-          <Route
-            path={PATH_INGREDIENTS_ID}
-            element={
-              <Modal
-                onClose={() => {
-                  navigate(PATH_CONSTRUCTOR_PAGE);
-                  dispatch({
-                    type: DELETE_CURRENT_INGREDIENT,
-                  });
-                }}>
-                <IngredientsDetails />
-              </Modal>
-            }
-          />
+          <Route path={PATH_INGREDIENTS_ID} element={<IngredientsDetails />} />
+          <Route path={PATH_FEED_ID} element={<OrderItemFeedDetails />} />
           <Route path={PATH_FEED} element={<Feed />} />
-          <Route
-            path={PATH_FEED_ID}
-            element={
-              <Modal
-                onClose={() => {
-                  dispatch({
-                    type: DELETE_CURRENT_ORDER_DETAILS,
-                  });
-                  navigate(PATH_FEED);
-                }}>
-                <OrderItemFeedDetails />
-              </Modal>
-            }
-          />
         </Routes>
+        {state?.backgroundIngredientsDetailsLocation && (
+          <Routes>
+            <Route
+              path={PATH_INGREDIENTS_ID}
+              element={
+                <Modal
+                  onClose={() => {
+                    navigate(PATH_CONSTRUCTOR_PAGE);
+                    dispatch({
+                      type: DELETE_CURRENT_INGREDIENT,
+                    });
+                  }}>
+                  <IngredientsDetails />
+                </Modal>
+              }
+            />
+          </Routes>
+        )}
+        {state?.backgroundFeedLocation && (
+          <Routes>
+            <Route
+              path={PATH_FEED_ID}
+              element={
+                <Modal
+                  onClose={() => {
+                    dispatch({
+                      type: DELETE_CURRENT_ORDER_DETAILS,
+                    });
+                    navigate(PATH_FEED);
+                  }}>
+                  <OrderItemFeedDetails />
+                </Modal>
+              }
+            />
+          </Routes>
+        )}
       </main>
     </>
   );

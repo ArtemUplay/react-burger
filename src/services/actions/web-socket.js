@@ -1,3 +1,5 @@
+import { updateToken } from './profile';
+
 export const WS_CONNECTION_START = 'WS_CONNECTION_START';
 export const WS_CONNECTION_SUCCESS = 'WS_CONNECTION_SUCCESS';
 export const WS_CONNECTION_ERROR = 'WS_CONNECTION_ERROR';
@@ -39,6 +41,10 @@ export const socketMiddleware = (wsUrl, wsActions) => {
         // функция, которая вызывается при получении события от сервера
         socket.onmessage = (event) => {
           const data = JSON.parse(event.data);
+
+          if (data.message === 'Invalid or missing token') {
+            return updateToken();
+          }
 
           dispatch({ type: onMessage, payload: data });
         };

@@ -7,11 +7,15 @@ import {
   WS_ORDERS_HISTORY_CONNECTION_CLOSED,
   WS_ORDERS_HISTORY_CONNECTION_START,
 } from '../../services/actions/orders-history';
+import { useLocation } from 'react-router-dom';
+import ProfileNavigationMenu from '../profile-navigation-menu/profile-navigation-menu';
 
 const OrdersHistory = () => {
   const { accessToken } = useSelector((store) => store.profile);
   const orders = useSelector((store) => store.ordersHistory.messages);
   const dispatch = useDispatch();
+  const location = useLocation();
+  const linkState = { backgroundOrdersHistoryLocation: location };
 
   const data = orders.length > 0 ? orders[orders.length - 1].orders : null;
 
@@ -31,21 +35,21 @@ const OrdersHistory = () => {
   return (
     reversedData &&
     reversedData.length > 0 && (
-      <ul className={styles.list}>
-        {reversedData.map((item) => {
-          return (
-            <OrderItem
-              path={`${PATH_PROFILE_ORDERS}/${item._id}`}
-              key={item._id}
-              name={item.name}
-              number={item.number}
-              ingredients={item.ingredients}
-              date={item.createdAt}
-              item={item}
-            />
-          );
-        })}
-      </ul>
+      <>
+        <ProfileNavigationMenu />
+        <ul className={styles.list}>
+          {reversedData.map((item) => {
+            return (
+              <OrderItem
+                path={`${PATH_PROFILE_ORDERS}/${item._id}`}
+                key={item._id}
+                item={item}
+                linkState={linkState}
+              />
+            );
+          })}
+        </ul>
+      </>
     )
   );
 };

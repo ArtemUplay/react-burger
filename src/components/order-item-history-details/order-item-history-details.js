@@ -1,8 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import OrderItemDetails from '../order-item-details/order-item-details';
 import { useEffect } from 'react';
-import { WS_ORDERS_HISTORY_CONNECTION_START } from '../../services/actions/orders-history';
-import { WS_FEED_CONNECTION_CLOSED } from '../../services/actions/feed';
+import {
+  WS_ORDERS_HISTORY_CONNECTION_CLOSED,
+  WS_ORDERS_HISTORY_CONNECTION_START,
+} from '../../services/actions/orders-history';
 import Loader from 'react-js-loader';
 import styles from './order-item-history-details.module.css';
 
@@ -19,7 +21,7 @@ const OrderItemHistoryDetails = () => {
       });
     }
 
-    return () => dispatch({ type: WS_FEED_CONNECTION_CLOSED });
+    return () => dispatch({ type: WS_ORDERS_HISTORY_CONNECTION_CLOSED });
   }, [accessToken]);
 
   if (!orders || orders.length === 0) {
