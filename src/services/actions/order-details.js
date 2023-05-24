@@ -17,7 +17,7 @@ export function getOrderNumber(burgerConstructorIngredients, accessToken) {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
-        Authorization: 'Bearer' + accessToken,
+        Authorization: 'Bearer ' + accessToken,
       },
       body: JSON.stringify({
         ingredients: [

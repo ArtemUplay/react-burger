@@ -39,8 +39,6 @@ const App = () => {
   const location = useLocation();
   const state = location.state;
 
-  console.log(state);
-
   useEffect(() => {
     dispatch(getItems());
   }, [dispatch]);
