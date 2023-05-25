@@ -3,6 +3,7 @@ import {
   setCookie,
   deleteCookie,
   getCookie,
+  removeBearer,
 } from '../../components/utils/utils';
 import { URL } from '../../constants/constants';
 
@@ -37,7 +38,7 @@ export function logOutProfile(refreshToken) {
       .then((response) => checkResponse(response))
       .then((data) => {
         dispatch({ type: POST_LOGOUT_PROFILE_SUCCESS, success: data.success });
-        deleteCookie('refreshToken');
+        localStorage.removeItem('refreshToken');
       })
       .catch((error) => {
         dispatch({
@@ -88,14 +89,17 @@ export function updateToken() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token: getCookie('refreshToken') }),
+      body: JSON.stringify({ token: localStorage.getItem('refreshToken') }),
     })
       .then((response) => checkResponse(response))
       .then((data) => {
         const refreshToken = data.refreshToken;
 
-        setCookie('refreshToken', refreshToken);
-        dispatch({ type: UPDATE_TOKEN_SUCCESS, accessToken: data.accessToken });
+        localStorage.setItem('refreshToken', refreshToken);
+        dispatch({
+          type: UPDATE_TOKEN_SUCCESS,
+          accessToken: removeBearer(data.accessToken),
+        });
       })
       .catch((error) => {
         dispatch({ type: UPDATE_TOKEN_FAILED });
@@ -110,7 +114,7 @@ export function getProfileData(accessToken) {
 
     fetch(`${URL}/auth/user`, {
       headers: {
-        Authorization: accessToken,
+        Authorization: 'Bearer ' + accessToken,
       },
     })
       .then((response) => checkResponse(response))

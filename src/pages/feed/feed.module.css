@@ -1,0 +1,54 @@
+.feed-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0px 60px;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  padding-right: 8px;
+  list-style: none;
+  max-width: 600px;
+  box-sizing: border-box;
+  height: calc(100vh - 180px);
+  overflow-y: auto;
+}
+
+.list::-webkit-scrollbar {
+  width: 8px;
+  background-color: #2f2f37;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+
+.orders-number__top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 36px;
+}
+
+.orders-number__ready {
+  flex-basis: 206px;
+}
+
+.orders-number__in-work {
+  flex-basis: 206px;
+}
+
+.orders-number__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.orders-number__list-item_ready {
+  color: #00cccc;
+}

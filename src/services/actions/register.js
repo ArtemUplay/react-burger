@@ -1,4 +1,4 @@
-import { checkResponse, setCookie } from '../../components/utils/utils';
+import { checkResponse, removeBearer } from '../../components/utils/utils';
 import { URL } from '../../constants/constants';
 
 export const POST_REGISTER_DATA_REQUEST = 'POST_REGISTER_DATA_REQUEST';
@@ -24,11 +24,11 @@ export function sendRegisterData(formData) {
       .then((responseData) => {
         const refreshToken = responseData.refreshToken;
 
-        setCookie('refreshToken', refreshToken);
+        localStorage.setItem('refreshToken', refreshToken);
 
         dispatch({
           type: POST_REGISTER_DATA_SUCCESS,
-          accessToken: responseData.accessToken,
+          accessToken: removeBearer(responseData.accessToken),
           success: responseData.success,
         });
       })

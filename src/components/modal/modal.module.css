@@ -10,10 +10,22 @@
 }
 
 .modal {
-  z-index: 1;
+  z-index: 1000000;
   position: relative;
   border-radius: 40px;
   width: 100%;
   max-width: 720px;
   background-color: #1c1c21;
+}
+
+.close-button {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  position: absolute;
+  top: 50px;
+  right: 40px;
+  cursor: pointer;
+  z-index: 100;
 }

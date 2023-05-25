@@ -7,7 +7,7 @@ import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_CURRENT_INGREDIENT } from '../../services/actions/ingredient-details';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
   const burgerConstructorIngredients = useSelector(
@@ -15,6 +15,8 @@ const ProductCard = ({ product }) => {
   );
   const ingredientId = product._id;
   const ingredientType = product.type;
+  const location = useLocation();
+  const linkState = { backgroundIngredientsDetailsLocation: location };
 
   const dispatch = useDispatch();
 
@@ -51,7 +53,10 @@ const ProductCard = ({ product }) => {
         }}
         ref={dragRef}
         style={{ backgroundColor: isDragging ? '#24247c' : '' }}>
-        <Link className={`${styles.link}`} to={`ingredients/${ingredientId}`}>
+        <Link
+          className={`${styles.link}`}
+          to={`ingredients/${ingredientId}`}
+          state={linkState}>
           <img
             className={`mb-1 ml-4 mr-4 ${styles.image}`}
             src={product.image}

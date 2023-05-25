@@ -1,14 +1,8 @@
 import { useEffect } from 'react';
 import styles from './ingredient-details.module.css';
-import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  DELETE_CURRENT_INGREDIENT,
-  SET_CURRENT_INGREDIENT,
-} from '../../services/actions/ingredient-details';
-import { useNavigate, useParams } from 'react-router-dom';
-import { PATH_CONSTRUCTOR_PAGE } from '../../constants/constants';
-import { getItems } from '../../services/actions/burger-ingredients';
+import { SET_CURRENT_INGREDIENT } from '../../services/actions/ingredient-details';
+import { useParams } from 'react-router-dom';
 
 const IngredientsDetails = () => {
   const currentIngredient = useSelector(
@@ -17,13 +11,6 @@ const IngredientsDetails = () => {
   const items = useSelector((store) => store.burgerIngredients.items);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (items.length === 0) {
-      dispatch(getItems());
-    }
-  }, [dispatch]);
-
-  const navigate = useNavigate();
   const { id } = useParams();
   const currentItem = items.find((item) => item._id === id);
 
@@ -37,17 +24,6 @@ const IngredientsDetails = () => {
         <div className={`${styles.wrapper}`}>
           <div className={`pt-10 pl-10 pr-10 ${styles.top}`}>
             <h2 className={` ${styles.title}`}>Детали ингредиента</h2>
-            <button
-              className={`${styles.button}`}
-              onClick={() => {
-                dispatch({
-                  type: DELETE_CURRENT_INGREDIENT,
-                });
-
-                navigate(PATH_CONSTRUCTOR_PAGE);
-              }}>
-              <CloseIcon type="primary" />
-            </button>
           </div>
           <img
             className={`${styles.image}`}

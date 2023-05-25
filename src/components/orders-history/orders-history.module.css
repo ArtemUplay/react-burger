@@ -1,0 +1,19 @@
+.list {
+  margin: 0;
+  padding: 0;
+  padding-right: 8px;
+  list-style: none;
+  max-width: 860px;
+  box-sizing: border-box;
+  height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+.list::-webkit-scrollbar {
+  width: 8px;
+  background-color: #2f2f37;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}

@@ -1,0 +1,25 @@
+.list-wrapper {
+  width: 320px;
+  align-self: start;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 80px;
+}
+
+.list__item {
+  line-height: 64px;
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.active {
+  text-decoration: none;
+  color: #f2f2f3;
+}

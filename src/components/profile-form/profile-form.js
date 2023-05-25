@@ -11,14 +11,14 @@ import {
   patchProfileData,
 } from '../../services/actions/profile';
 import styles from './profile-form.module.css';
-import { getCookie } from '../utils/utils';
+import ProfileNavigationMenu from '../profile-navigation-menu/profile-navigation-menu';
 
 const ProfileForm = () => {
   const { profileUserData, accessToken } = useSelector(
     (store) => store.profile
   );
   const dispatch = useDispatch();
-  const refreshToken = getCookie('refreshToken');
+  const refreshToken = localStorage.getItem('refreshToken');
 
   const [userNameValue, setUserNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
@@ -56,44 +56,47 @@ const ProfileForm = () => {
   };
 
   return (
-    <form className={styles.form}>
-      <Input
-        extraClass="mb-6"
-        type="text"
-        placeholder="Имя"
-        value={userNameValue}
-        icon="EditIcon"
-        onChange={onUserNameChange}
-      />
-      <EmailInput
-        extraClass="mb-6"
-        type="email"
-        value={emailValue}
-        placeholder="E-mail"
-        icon="EditIcon"
-        onChange={onEmailChange}
-      />
-      <PasswordInput
-        name={'password'}
-        disabled={false}
-        value={passwordValue}
-        placeholder="Пароль"
-        icon="EditIcon"
-        onChange={onPasswordChange}
-      />
-      <div className={styles.buttons}>
-        <Button
-          extraClass="mr-8"
-          htmlType="button"
-          type="secondary"
-          onClick={onClickCancelButton}>
-          Отмена
-        </Button>
-        <Button htmlType="button" type="primary" onClick={onClickSaveButton}>
-          Изменить
-        </Button>
-      </div>
-    </form>
+    <>
+      <ProfileNavigationMenu />
+      <form className={styles.form}>
+        <Input
+          extraClass="mb-6"
+          type="text"
+          placeholder="Имя"
+          value={userNameValue}
+          icon="EditIcon"
+          onChange={onUserNameChange}
+        />
+        <EmailInput
+          extraClass="mb-6"
+          type="email"
+          value={emailValue}
+          placeholder="E-mail"
+          icon="EditIcon"
+          onChange={onEmailChange}
+        />
+        <PasswordInput
+          name={'password'}
+          disabled={false}
+          value={passwordValue}
+          placeholder="Пароль"
+          icon="EditIcon"
+          onChange={onPasswordChange}
+        />
+        <div className={styles.buttons}>
+          <Button
+            extraClass="mr-8"
+            htmlType="button"
+            type="secondary"
+            onClick={onClickCancelButton}>
+            Отмена
+          </Button>
+          <Button htmlType="button" type="primary" onClick={onClickSaveButton}>
+            Изменить
+          </Button>
+        </div>
+      </form>
+    </>
   );
 };
 
