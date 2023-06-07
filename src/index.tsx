@@ -25,7 +25,7 @@ import {
   WS_ORDERS_HISTORY_CONNECTION_MESSAGE,
 } from './services/actions/orders-history';
 
-const wsFeedActions = {
+export const wsFeedActions = {
   wsInit: WS_FEED_CONNECTION_START,
   onOpen: WS_FEED_CONNECTION_SUCCESS,
   onClose: WS_FEED_CONNECTION_CLOSED,
@@ -33,7 +33,7 @@ const wsFeedActions = {
   onMessage: WS_FEED_CONNECTION_MESSAGE,
 };
 
-const wsOrdersHistoryActions = {
+export const wsOrdersHistoryActions = {
   wsInit: WS_ORDERS_HISTORY_CONNECTION_START,
   onOpen: WS_ORDERS_HISTORY_CONNECTION_SUCCESS,
   onClose: WS_ORDERS_HISTORY_CONNECTION_CLOSED,
@@ -50,10 +50,8 @@ declare global {
   }
 }
 
-const composeEnhancers =
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({} as Function)
-    : compose;
+export const composeEnhancers =
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const enhancer = composeEnhancers(
   applyMiddleware(thunk),
@@ -61,7 +59,7 @@ const enhancer = composeEnhancers(
   applyMiddleware(socketMiddleware(wsOrdersHistoryUrl, wsOrdersHistoryActions))
 );
 
-const store = createStore(rootReducer, enhancer);
+export const store = createStore(rootReducer, enhancer);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
