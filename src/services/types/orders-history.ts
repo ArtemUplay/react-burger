@@ -21,14 +21,18 @@ export interface IWsOrdersHistoryConnectionClosed {
 
 export interface IWsOrdersHistoryConnectionMessage {
   readonly type: typeof WS_ORDERS_HISTORY_CONNECTION_MESSAGE;
-  payload: IMessageInfo;
+  payload: IMessageInfo | string | undefined;
 }
 
-export type TOrdersHistoryActions =
-  | IWsOrdersHistoryConnectionStart
-  | IWsOrdersHistoryConnectionError
-  | IWsOrdersHistoryConnectionClosed
-  | IWsOrdersHistoryConnectionMessage;
+export interface IWsOrdersHistoryActions {
+  type:
+    | 'WS_ORDERS_HISTORY_CONNECTION_START'
+    | 'WS_ORDERS_HISTORY_CONNECTION_SUCCESS'
+    | 'WS_ORDERS_HISTORY_CONNECTION_CLOSED'
+    | 'WS_ORDERS_HISTORY_CONNECTION_ERROR'
+    | 'WS_ORDERS_HISTORY_CONNECTION_MESSAGE';
+  payload?: any;
+}
 
 export interface IMessageInfo {
   success: boolean;

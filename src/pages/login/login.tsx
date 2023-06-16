@@ -18,14 +18,14 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from '../../types/hooks';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
-import { RootState } from '../../types';
+import { AppDispatch, RootState } from '../../types';
 
 const Login = () => {
   const { isAuth } = useSelector((store) => store.profile);
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
 
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
   const onEmailChange = (evt: ChangeEvent<HTMLInputElement>) => {

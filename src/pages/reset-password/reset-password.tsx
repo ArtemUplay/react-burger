@@ -15,9 +15,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { resetPasswordRequest } from '../../services/actions/reset-password';
 import { useSelector } from '../../types/hooks';
-import { ThunkDispatch } from 'redux-thunk';
-import { AnyAction } from 'redux';
-import { RootState } from '../../types';
+import { AppDispatch } from '../../types';
 
 const ResetPassword = () => {
   const { forgotPasswordSuccess, resetPasswordSuccess } = useSelector(
@@ -28,7 +26,7 @@ const ResetPassword = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const onPasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setPasswordValue(evt.target.value);

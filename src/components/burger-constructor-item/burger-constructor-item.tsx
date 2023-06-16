@@ -13,11 +13,10 @@ import { ingredientsPropTypes } from '../utils/utils';
 import { useSelector } from '../../types/hooks';
 import {
   IBurgerConstructorDropItem,
+  IBurgerConstructorItem,
   IBurgerConstructorItemProps,
 } from './burger-constructor-item.types';
-import { AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { RootState } from '../../types';
+import { AppDispatch } from '../../types';
 
 const BurgerConstructorItem = ({
   item,
@@ -28,11 +27,11 @@ const BurgerConstructorItem = ({
   );
   const items = useSelector((store) => store.burgerIngredients.ingredients);
   const ingredientIndexArray = burgerConstructorIngredients.findIndex(
-    (elem) => elem.uniqueId === uniqueId
+    (elem: IBurgerConstructorItem) => elem.uniqueId === uniqueId
   );
 
   const ingredientId = item._id;
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const handleDelete = (ingredientIndex: string) => {
     dispatch({ type: DELETE_CONSTRUCTOR_INGREDIENT, ingredientIndex });

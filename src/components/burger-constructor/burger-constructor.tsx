@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react';
+import { useMemo } from 'react';
 import styles from './burger-constructor.module.css';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -17,10 +17,8 @@ import OrderDetails from '../order-details/order-details';
 import { useSelector } from '../../types/hooks';
 import { IIngredient } from '../burger-ingredients/burger-ingredients.types';
 import { IIBurgerConstructorIngredient } from './burger-constructor.types';
-import { AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
 import Loader from '../loader/loader';
-import { RootState } from '../../types';
+import { AppDispatch } from '../../types';
 
 const BurgerConstructor = () => {
   const burgerConstructorIngredients = useSelector(
@@ -35,7 +33,7 @@ const BurgerConstructor = () => {
     (store) => store.orderDetails.order.orderNumber
   );
 
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const bun = burgerConstructorIngredients.find(
     (item: IIngredient) => item.type === 'bun'
@@ -72,7 +70,7 @@ const BurgerConstructor = () => {
   }, [burgerConstructorIngredients]);
 
   function onClickSubmitButton(
-    accessToken: string,
+    accessToken: string | null,
     burgerConstructorIngredients: Array<IIBurgerConstructorIngredient>
   ) {
     if (accessToken && burgerConstructorIngredients.length > 0) {

@@ -29,9 +29,9 @@ export type TOrderDetailsActions =
   | IDeleteOrderNumberAction;
 
 export interface IOrderDetailsState {
-  order: {
-    orderNumber: number | null;
+  readonly order: {
+    readonly orderNumber: number | null;
   };
-  orderNumberRequest: boolean;
-  orderNumberFailed: boolean;
+  readonly orderNumberRequest: boolean;
+  readonly orderNumberFailed: boolean;
 }

@@ -31,13 +31,11 @@ import { getItems } from '../../services/actions/burger-ingredients';
 import { DELETE_CURRENT_ORDER_DETAILS } from '../../services/actions/order-item-details';
 import OrderItemFeedDetails from '../order-item-feed-details/order-item-feed-details';
 import { useSelector } from '../../types/hooks';
-import { ThunkDispatch } from 'redux-thunk';
-import { AnyAction } from 'redux';
-import { RootState } from '../../types';
+import { AppDispatch } from '../../types';
 
 const App = () => {
   const { accessToken } = useSelector((store) => store.profile);
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const refreshToken = localStorage.getItem('refreshToken');
   const location = useLocation();

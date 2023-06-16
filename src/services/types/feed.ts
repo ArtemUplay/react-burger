@@ -21,14 +21,18 @@ export interface IWsFeedConnectionStartClosed {
 
 export interface IWsFeedConnectionStartMessage {
   readonly type: typeof WS_FEED_CONNECTION_MESSAGE;
-  payload: IMessageInfo;
+  payload: IMessageInfo | string | undefined;
 }
 
-export type TWsFeedConnectionActions =
-  | IWsFeedConnectionStartAction
-  | IWsFeedConnectionStartError
-  | IWsFeedConnectionStartClosed
-  | IWsFeedConnectionStartMessage;
+export interface IWsFeedActions {
+  type:
+    | 'WS_FEED_CONNECTION_START'
+    | 'WS_FEED_CONNECTION_SUCCESS'
+    | 'WS_FEED_CONNECTION_CLOSED'
+    | 'WS_FEED_CONNECTION_ERROR'
+    | 'WS_FEED_CONNECTION_MESSAGE';
+  payload?: any;
+}
 
 export interface IOrdersFeedState {
   wsConnected: boolean;

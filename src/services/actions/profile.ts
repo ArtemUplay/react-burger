@@ -2,6 +2,11 @@ import { checkResponse, removeBearer } from '../../components/utils/utils';
 import { URL } from '../../constants/constants';
 import { IProfileData } from '../types/profile';
 import { AppDispatch, AppThunk } from '../../types';
+import {
+  IGetProfileData,
+  IProfilePatchData,
+  IUpdateToken,
+} from '../../types/data';
 
 export const GET_PROFILE_DATA_REQUEST = 'GET_PROFILE_DATA_REQUEST' as const;
 export const GET_PROFILE_DATA_SUCCESS = 'GET_PROFILE_DATA_SUCCESS' as const;
@@ -21,8 +26,9 @@ export const UPDATE_TOKEN_REQUEST = 'UPDATE_TOKEN_REQUEST' as const;
 export const UPDATE_TOKEN_SUCCESS = 'UPDATE_TOKEN_SUCCESS' as const;
 export const UPDATE_TOKEN_FAILED = 'UPDATE_TOKEN_FAILED' as const;
 
-export const logOutProfile: AppThunk =
-  (refreshToken: string) => (dispatch: AppDispatch) => {
+export const logOutProfile =
+  (refreshToken: string): AppThunk =>
+  (dispatch: AppDispatch) => {
     dispatch({ type: POST_LOGOUT_PROFILE_REQUEST });
 
     fetch(`${URL}/auth/logout`, {
@@ -48,20 +54,22 @@ export const logOutProfile: AppThunk =
       });
   };
 
-export const patchProfileData: AppThunk =
-  (formData: IProfileData, accessToken: string) => (dispatch: AppDispatch) => {
+export const patchProfileData =
+  (formData: IProfileData, accessToken: string): AppThunk =>
+  (dispatch: AppDispatch) => {
     dispatch({ type: PATCH_PROFILE_FORM_DATA_REQUEST });
 
     fetch(`${URL}/auth/user`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: accessToken,
+        Authorization: 'Bearer ' + accessToken,
       },
       body: JSON.stringify(formData),
     })
       .then((response) => checkResponse(response))
-      .then((data) => {
+      .then((data: IProfilePatchData) => {
+        console.log(data);
         dispatch({ type: POST_LOGOUT_PROFILE_SUCCESS, success: data.success });
       })
       .catch((error) => {
@@ -77,7 +85,7 @@ export const patchProfileData: AppThunk =
       });
   };
 
-export const updateToken: AppThunk = () => (dispatch: AppDispatch) => {
+export const updateToken = (): AppThunk => (dispatch: AppDispatch) => {
   dispatch({ type: UPDATE_TOKEN_REQUEST });
 
   fetch(`${URL}/auth/token`, {
@@ -88,7 +96,7 @@ export const updateToken: AppThunk = () => (dispatch: AppDispatch) => {
     body: JSON.stringify({ token: localStorage.getItem('refreshToken') }),
   })
     .then((response) => checkResponse(response))
-    .then((data) => {
+    .then((data: IUpdateToken) => {
       const refreshToken = data.refreshToken;
 
       localStorage.setItem('refreshToken', refreshToken);
@@ -103,8 +111,9 @@ export const updateToken: AppThunk = () => (dispatch: AppDispatch) => {
     });
 };
 
-export const getProfileData: AppThunk =
-  (accessToken: string) => (dispatch: AppDispatch) => {
+export const getProfileData =
+  (accessToken: string): AppThunk =>
+  (dispatch: AppDispatch) => {
     dispatch({ type: GET_PROFILE_DATA_REQUEST });
 
     fetch(`${URL}/auth/user`, {
@@ -113,7 +122,7 @@ export const getProfileData: AppThunk =
       },
     })
       .then((response) => checkResponse(response))
-      .then((data) => {
+      .then((data: IGetProfileData) => {
         const profileUserData = data.user;
         dispatch({ type: GET_PROFILE_DATA_SUCCESS, profileUserData });
       })

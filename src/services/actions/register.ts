@@ -7,8 +7,9 @@ export const POST_REGISTER_DATA_REQUEST = 'POST_REGISTER_DATA_REQUEST' as const;
 export const POST_REGISTER_DATA_SUCCESS = 'POST_REGISTER_DATA_SUCCESS' as const;
 export const POST_REGISTER_DATA_FAILED = 'POST_REGISTER_DATA_FAILED' as const;
 
-export const sendRegisterData: AppThunk =
-  (formData: IRegisterFormData) => (dispatch: AppDispatch) => {
+export const sendRegisterData =
+  (formData: IRegisterFormData): AppThunk =>
+  (dispatch: AppDispatch) => {
     dispatch({ type: POST_REGISTER_DATA_REQUEST });
     fetch(`${URL}/auth/register`, {
       method: 'POST',

@@ -1,14 +1,16 @@
 import { checkResponse, removeBearer } from '../../components/utils/utils';
 import { URL } from '../../constants/constants';
 import { AppDispatch, AppThunk } from '../../types';
+import { ILogin } from '../../types/data';
 import { ILoginFormData } from '../types/login';
 
 export const POST_LOGIN_DATA_REQUEST = 'POST_LOGIN_DATA_REQUEST' as const;
 export const POST_LOGIN_DATA_SUCCESS = 'POST_LOGIN_DATA_SUCCESS' as const;
 export const POST_LOGIN_DATA_FAILED = 'POST_LOGIN_DATA_FAILED' as const;
 
-export const sendLoginData: AppThunk =
-  (formData: ILoginFormData) => (dispatch: AppDispatch) => {
+export const sendLoginData =
+  (formData: ILoginFormData): AppThunk =>
+  (dispatch: AppDispatch) => {
     dispatch({ type: POST_LOGIN_DATA_REQUEST });
 
     fetch(`${URL}/auth/login`, {
@@ -24,7 +26,7 @@ export const sendLoginData: AppThunk =
       body: JSON.stringify(formData),
     })
       .then((response) => checkResponse(response))
-      .then((responseData) => {
+      .then((responseData: ILogin) => {
         const refreshToken: string = responseData.refreshToken;
 
         localStorage.setItem('refreshToken', refreshToken);

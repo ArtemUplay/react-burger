@@ -5,17 +5,18 @@ import {
 } from '../../components/utils/utils';
 import { URL } from '../../constants/constants';
 import { AppDispatch, AppThunk } from '../../types';
+import { IOrderDetailsNumber } from '../../types/data';
 
 export const GET_ORDER_NUMBER_REQUEST = 'GET_ORDER_NUMBER_REQUEST' as const;
 export const GET_ORDER_NUMBER_SUCCESS = 'GET_ORDER_NUMBER_SUCCESS' as const;
 export const GET_ORDER_NUMBER_FAILED = 'GET_ORDER_NUMBER_FAILED' as const;
 export const DELETE_ORDER_NUMBER = 'DELETE_ORDER_NUMBER' as const;
 
-export const getOrderNumber: AppThunk =
+export const getOrderNumber =
   (
     burgerConstructorIngredients: Array<IIBurgerConstructorIngredient>,
     accessToken: string
-  ) =>
+  ): AppThunk =>
   (dispatch: AppDispatch) => {
     dispatch({ type: GET_ORDER_NUMBER_REQUEST });
 
@@ -32,7 +33,7 @@ export const getOrderNumber: AppThunk =
       }),
     })
       .then((response) => checkResponse(response))
-      .then((data) => {
+      .then((data: IOrderDetailsNumber) => {
         const orderNumber = data.order.number;
 
         dispatch({

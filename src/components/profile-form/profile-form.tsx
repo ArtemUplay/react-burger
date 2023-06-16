@@ -13,15 +13,13 @@ import {
 import styles from './profile-form.module.css';
 import ProfileNavigationMenu from '../profile-navigation-menu/profile-navigation-menu';
 import { useSelector } from '../../types/hooks';
-import { ThunkDispatch } from 'redux-thunk';
-import { AnyAction } from 'redux';
-import { RootState } from '../../types';
+import { AppDispatch } from '../../types';
 
 const ProfileForm = () => {
   const { profileUserData, accessToken } = useSelector(
     (store) => store.profile
   );
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const [userNameValue, setUserNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');

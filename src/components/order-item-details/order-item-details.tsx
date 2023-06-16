@@ -30,7 +30,9 @@ const OrderItemDetails = ({ orders }: IOrderItemDetailsProps) => {
   > = {};
 
   currentOrder?.ingredients.forEach((ingredient: string) => {
-    const foundIngredient = ingredients.find((item) => item._id === ingredient);
+    const foundIngredient = ingredients.find(
+      (item: IIngredient) => item._id === ingredient
+    );
     if (foundIngredient) {
       if (foundIngredient.type === 'bun') {
         orderIngredientsMap[ingredient] = {

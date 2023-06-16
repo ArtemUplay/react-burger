@@ -15,13 +15,13 @@ import { forgotPasswordRequest } from '../../services/actions/reset-password';
 import { useSelector } from '../../types/hooks';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
-import { RootState } from '../../types';
+import { AppDispatch, RootState } from '../../types';
 
 const ForgotPassword = () => {
   const { forgotPasswordSuccess } = useSelector((store) => store.resetPassword);
   const [emailValue, setEmailValue] = useState('');
   const navigate = useNavigate();
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const onEmailChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setEmailValue(evt.target.value);

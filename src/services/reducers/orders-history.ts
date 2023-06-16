@@ -6,7 +6,7 @@ import {
 } from '../actions/orders-history';
 import {
   IOrdersHistoryState,
-  TOrdersHistoryActions,
+  IWsOrdersHistoryActions,
 } from '../types/orders-history';
 
 const initialState: IOrdersHistoryState = {
@@ -17,7 +17,7 @@ const initialState: IOrdersHistoryState = {
 
 export const ordersHistoryReducer = (
   state = initialState,
-  action: TOrdersHistoryActions
+  action: IWsOrdersHistoryActions
 ): IOrdersHistoryState => {
   switch (action.type) {
     case WS_ORDERS_HISTORY_CONNECTION_START:

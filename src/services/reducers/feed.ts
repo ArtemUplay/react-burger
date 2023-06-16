@@ -4,7 +4,7 @@ import {
   WS_FEED_CONNECTION_ERROR,
   WS_FEED_CONNECTION_MESSAGE,
 } from '../actions/feed';
-import { IOrdersFeedState, TWsFeedConnectionActions } from '../types/feed';
+import { IOrdersFeedState, IWsFeedActions } from '../types/feed';
 
 const initialState: IOrdersFeedState = {
   wsConnected: false,
@@ -14,7 +14,7 @@ const initialState: IOrdersFeedState = {
 
 export const feedReducer = (
   state = initialState,
-  action: TWsFeedConnectionActions
+  action: IWsFeedActions
 ): IOrdersFeedState => {
   switch (action.type) {
     case WS_FEED_CONNECTION_START:

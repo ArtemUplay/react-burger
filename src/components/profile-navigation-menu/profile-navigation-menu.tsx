@@ -9,10 +9,10 @@ import styles from './profile-navigation-menu.module.css';
 import { NavLink, useLocation } from 'react-router-dom';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
-import { RootState } from '../../types';
+import { AppDispatch, RootState } from '../../types';
 
 const ProfileNavigationMenu = () => {
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const refreshToken = localStorage.getItem('refreshToken');
   const location = useLocation();
 

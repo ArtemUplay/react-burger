@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from '../../types/hooks';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { RootState } from '../../types';
+import { AppDispatch, RootState } from '../../types';
 
 const Register = () => {
   const { isAuth } = useSelector((store) => store.profile);
@@ -23,7 +23,7 @@ const Register = () => {
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const navigate = useNavigate();
-  const dispatch: ThunkDispatch<RootState, any, AnyAction> = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const onUserNameChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setUserNameValue(evt.target.value);
