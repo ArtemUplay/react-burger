@@ -5,8 +5,8 @@ import {
 } from '../actions/order-item-details';
 
 export interface ISetCurrentOrderDetailsAction {
-  readonly type: typeof SET_CURRENT_ORDER_DETAILS;
-  currentOrder: IOrder;
+  type: typeof SET_CURRENT_ORDER_DETAILS;
+  payload: IOrder;
 }
 
 export interface IDeleteCurrentOrderDetailsAction {

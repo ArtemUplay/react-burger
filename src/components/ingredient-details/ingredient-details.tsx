@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import styles from './ingredient-details.module.css';
-import { useDispatch } from 'react-redux';
 import { SET_CURRENT_INGREDIENT } from '../../services/actions/ingredient-details';
 import { useParams } from 'react-router-dom';
-import { useSelector } from '../../types/hooks';
+import { useDispatch, useSelector } from '../../types/hooks';
 import { IIngredient } from '../burger-ingredients/burger-ingredients.types';
 
 const IngredientsDetails = () => {

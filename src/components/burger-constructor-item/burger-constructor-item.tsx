@@ -1,7 +1,6 @@
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor-item.module.css';
-import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   DELETE_CONSTRUCTOR_INGREDIENT,
@@ -10,7 +9,7 @@ import {
 } from '../../services/actions/burger-constructor';
 import { DropTargetMonitor, useDrag, useDrop } from 'react-dnd';
 import { ingredientsPropTypes } from '../utils/utils';
-import { useSelector } from '../../types/hooks';
+import { useDispatch, useSelector } from '../../types/hooks';
 import {
   IBurgerConstructorDropItem,
   IBurgerConstructorItem,

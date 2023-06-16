@@ -3,8 +3,8 @@ import {
   DELETE_CURRENT_ORDER_DETAILS,
 } from '../actions/order-item-details';
 import {
-  IOrderItemDetailsState,
   TOrderItemDetailsActions,
+  IOrderItemDetailsState,
 } from '../types/order-item-details';
 
 const initialState: IOrderItemDetailsState = {
@@ -19,7 +19,7 @@ export const orderItemDetailsReducer = (
     case SET_CURRENT_ORDER_DETAILS: {
       return {
         ...state,
-        currentOrder: action.currentOrder,
+        currentOrder: action.payload || null,
       };
     }
     case DELETE_CURRENT_ORDER_DETAILS: {
@@ -29,9 +29,7 @@ export const orderItemDetailsReducer = (
       };
     }
     default: {
-      return {
-        ...state,
-      };
+      return state;
     }
   }
 };

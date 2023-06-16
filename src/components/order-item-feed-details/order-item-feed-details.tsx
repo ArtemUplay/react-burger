@@ -1,6 +1,4 @@
 import { useEffect } from 'react';
-
-import { useDispatch } from 'react-redux';
 import OrderItemDetails from '../order-item-details/order-item-details';
 import styles from './order-item-feed-details.module.css';
 import {
@@ -8,7 +6,7 @@ import {
   WS_FEED_CONNECTION_START,
 } from '../../services/actions/feed';
 import Loader from '../loader/loader';
-import { useSelector } from '../../types/hooks';
+import { useDispatch, useSelector } from '../../types/hooks';
 
 const OrderItemFeedDetails = () => {
   const orders = useSelector((store) => store.feed.messages);

@@ -3,7 +3,6 @@ import styles from './burger-constructor.module.css';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
 import { setIngredientToConstructor } from '../../services/actions/burger-constructor';
 import {
   DELETE_ORDER_NUMBER,
@@ -14,11 +13,10 @@ import { useNavigate } from 'react-router-dom';
 import { PATH_LOGIN_PAGE } from '../../constants/constants';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { useSelector } from '../../types/hooks';
+import { useDispatch, useSelector } from '../../types/hooks';
 import { IIngredient } from '../burger-ingredients/burger-ingredients.types';
 import { IIBurgerConstructorIngredient } from './burger-constructor.types';
 import Loader from '../loader/loader';
-import { AppDispatch } from '../../types';
 
 const BurgerConstructor = () => {
   const burgerConstructorIngredients = useSelector(
@@ -33,7 +31,7 @@ const BurgerConstructor = () => {
     (store) => store.orderDetails.order.orderNumber
   );
 
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const bun = burgerConstructorIngredients.find(
     (item: IIngredient) => item.type === 'bun'

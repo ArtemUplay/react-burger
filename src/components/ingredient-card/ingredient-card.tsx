@@ -1,10 +1,9 @@
 import { useMemo } from 'react';
 import styles from './ingredient-card.module.css';
-import { useSelector } from '../../types/hooks';
+import { useDispatch, useSelector } from '../../types/hooks';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from 'react-dnd';
-import { useDispatch } from 'react-redux';
 import { SET_CURRENT_INGREDIENT } from '../../services/actions/ingredient-details';
 import { Link, useLocation } from 'react-router-dom';
 import { IIngredientCardProps } from './ingredient-card.types';

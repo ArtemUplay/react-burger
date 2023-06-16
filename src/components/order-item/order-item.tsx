@@ -4,10 +4,9 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link } from 'react-router-dom';
 import styles from './order-item.module.css';
-import { useDispatch } from 'react-redux';
 import { SET_CURRENT_ORDER_DETAILS } from '../../services/actions/order-item-details';
 import { IOrderItemProps } from './order-item.types';
-import { useSelector } from '../../types/hooks';
+import { useDispatch, useSelector } from '../../types/hooks';
 import { IIngredient } from '../burger-ingredients/burger-ingredients.types';
 
 const OrderItem = ({ path, item, linkState }: IOrderItemProps) => {
@@ -51,7 +50,7 @@ const OrderItem = ({ path, item, linkState }: IOrderItemProps) => {
   const onItemClick = () => {
     dispatch({
       type: SET_CURRENT_ORDER_DETAILS,
-      currentOrder: item,
+      payload: item,
     });
   };
 

@@ -20,7 +20,6 @@ import ForgotPassword from '../../pages/forgot-password/forgot-password';
 import ResetPassword from '../../pages/reset-password/reset-password';
 import Profile from '../../pages/profile/profile';
 import ProtectedRouteProfile from '../protected-route-profile/protected-route-profile';
-import { useDispatch } from 'react-redux';
 import { getProfileData, updateToken } from '../../services/actions/profile';
 import IngredientsDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
@@ -30,7 +29,7 @@ import { DELETE_CURRENT_INGREDIENT } from '../../services/actions/ingredient-det
 import { getItems } from '../../services/actions/burger-ingredients';
 import { DELETE_CURRENT_ORDER_DETAILS } from '../../services/actions/order-item-details';
 import OrderItemFeedDetails from '../order-item-feed-details/order-item-feed-details';
-import { useSelector } from '../../types/hooks';
+import { useDispatch, useSelector } from '../../types/hooks';
 import { AppDispatch } from '../../types';
 
 const App = () => {

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getProfileData, updateToken } from '../../services/actions/profile';
 import { PATH_LOGIN_PAGE } from '../../constants/constants';
@@ -7,7 +6,7 @@ import { PATH_LOGIN_PAGE } from '../../constants/constants';
 import styles from './protected-route-profile.module.css';
 import Loader from '../loader/loader';
 import { IProtectedRouteProfileProps } from './protected-route-profile.types';
-import { useSelector } from '../../types/hooks';
+import { useDispatch, useSelector } from '../../types/hooks';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { RootState } from '../../types';

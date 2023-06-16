@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './order-item-details.module.css';
-import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { SET_CURRENT_ORDER_DETAILS } from '../../services/actions/order-item-details';
-import { useSelector } from '../../types/hooks';
+import { useDispatch, useSelector } from '../../types/hooks';
 import { IOrderItemDetailsProps } from './order-item-details.types';
 import { IIngredient } from '../burger-ingredients/burger-ingredients.types';
 
@@ -59,10 +58,12 @@ const OrderItemDetails = ({ orders }: IOrderItemDetailsProps) => {
   }, 0);
 
   useEffect(() => {
-    dispatch({
-      type: SET_CURRENT_ORDER_DETAILS,
-      currentOrder: currentItem,
-    });
+    if (currentItem) {
+      dispatch({
+        type: SET_CURRENT_ORDER_DETAILS,
+        payload: currentItem,
+      });
+    }
   }, [dispatch, currentItem]);
 
   return data && data.length > 0 && currentOrder ? (

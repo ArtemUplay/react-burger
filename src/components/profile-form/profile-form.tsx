@@ -5,21 +5,19 @@ import {
   Input,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
 import {
   getProfileData,
   patchProfileData,
 } from '../../services/actions/profile';
 import styles from './profile-form.module.css';
 import ProfileNavigationMenu from '../profile-navigation-menu/profile-navigation-menu';
-import { useSelector } from '../../types/hooks';
-import { AppDispatch } from '../../types';
+import { useDispatch, useSelector } from '../../types/hooks';
 
 const ProfileForm = () => {
   const { profileUserData, accessToken } = useSelector(
     (store) => store.profile
   );
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const [userNameValue, setUserNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');

@@ -1,18 +1,15 @@
-import { useDispatch } from 'react-redux';
 import {
   PATH_LOGIN_PAGE,
   PATH_PROFILE_ORDERS,
   PATH_PROFILE_PAGE,
 } from '../../constants/constants';
 import { logOutProfile } from '../../services/actions/profile';
+import { useDispatch } from '../../types/hooks';
 import styles from './profile-navigation-menu.module.css';
 import { NavLink, useLocation } from 'react-router-dom';
-import { ThunkDispatch } from 'redux-thunk';
-import { AnyAction } from 'redux';
-import { AppDispatch, RootState } from '../../types';
 
 const ProfileNavigationMenu = () => {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch();
   const refreshToken = localStorage.getItem('refreshToken');
   const location = useLocation();
 

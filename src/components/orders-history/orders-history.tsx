@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import OrderItem from '../order-item/order-item';
 import styles from './orders-history.module.css';
 import { PATH_PROFILE_ORDERS } from '../../constants/constants';
@@ -9,7 +8,7 @@ import {
 } from '../../services/actions/orders-history';
 import { useLocation } from 'react-router-dom';
 import ProfileNavigationMenu from '../profile-navigation-menu/profile-navigation-menu';
-import { useSelector } from '../../types/hooks';
+import { useDispatch, useSelector } from '../../types/hooks';
 
 const OrdersHistory = () => {
   const { accessToken } = useSelector((store) => store.profile);
