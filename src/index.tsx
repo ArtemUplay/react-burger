@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom/client';
 import 'normalize.css';
 import './index.css';
 import App from './components/app/app';
-import { applyMiddleware, createStore, compose } from 'redux';
+import { applyMiddleware, compose, Store, Dispatch } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from './services/reducers';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import { BrowserRouter } from 'react-router-dom';
 import { socketMiddleware } from './services/actions/web-socket';
 
@@ -25,7 +26,7 @@ import {
   WS_ORDERS_HISTORY_CONNECTION_MESSAGE,
 } from './services/actions/orders-history';
 
-const wsFeedActions = {
+export const wsFeedActions = {
   wsInit: WS_FEED_CONNECTION_START,
   onOpen: WS_FEED_CONNECTION_SUCCESS,
   onClose: WS_FEED_CONNECTION_CLOSED,
@@ -33,7 +34,7 @@ const wsFeedActions = {
   onMessage: WS_FEED_CONNECTION_MESSAGE,
 };
 
-const wsOrdersHistoryActions = {
+export const wsOrdersHistoryActions = {
   wsInit: WS_ORDERS_HISTORY_CONNECTION_START,
   onOpen: WS_ORDERS_HISTORY_CONNECTION_SUCCESS,
   onClose: WS_ORDERS_HISTORY_CONNECTION_CLOSED,
@@ -41,8 +42,8 @@ const wsOrdersHistoryActions = {
   onMessage: WS_ORDERS_HISTORY_CONNECTION_MESSAGE,
 };
 
-const wsFeedUrl = 'wss://norma.nomoreparties.space/orders/all';
-const wsOrdersHistoryUrl = 'wss://norma.nomoreparties.space/orders';
+const wsFeedUrl = 'wss://norma.nomoreparties.space/orders/all' as const;
+const wsOrdersHistoryUrl = 'wss://norma.nomoreparties.space/orders' as const;
 
 declare global {
   interface Window {
@@ -50,28 +51,25 @@ declare global {
   }
 }
 
-const composeEnhancers =
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({} as Function)
-    : compose;
+export const composeEnhancers =
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const enhancer = composeEnhancers(
-  applyMiddleware(thunk),
-  applyMiddleware(socketMiddleware(wsFeedUrl, wsFeedActions)),
-  applyMiddleware(socketMiddleware(wsOrdersHistoryUrl, wsOrdersHistoryActions))
-);
-
-const store = createStore(rootReducer, enhancer);
+export const store: Store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat([
+      socketMiddleware(wsFeedUrl, wsFeedActions),
+      socketMiddleware(wsOrdersHistoryUrl, wsOrdersHistoryActions),
+    ]),
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
 );

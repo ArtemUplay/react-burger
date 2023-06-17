@@ -42,6 +42,12 @@
   scroll-behavior: smooth;
 }
 
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
 body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
